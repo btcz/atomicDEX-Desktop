@@ -21,7 +21,7 @@ namespace atomic_dex
     constexpr const char*
     get_version()
     {
-        return "0.5.2-beta";
+        return "1.1.0";
     }
 
     constexpr int
