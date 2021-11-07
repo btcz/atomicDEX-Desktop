@@ -88,3 +88,4 @@ atomic_legacy_imgui
 .vscode/settings.json
 .vscode/tasks.json
 bundled
+ci_tools_atomic_dex/installer/windows/packages/com.komodoplatform.atomicdex/data/bitcoinz-dex-desktop.7z

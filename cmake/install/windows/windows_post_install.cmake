@@ -1,6 +1,14 @@
 include(${CMAKE_CURRENT_LIST_DIR}/../../project.metadata.cmake)
 
-get_filename_component(PROJECT_ROOT_DIR ${CMAKE_SOURCE_DIR} DIRECTORY)
+set(CMAKE_SOURCE_DIR "C:/btcz/btcz/atomicDEX-Desktop/")
+set(CMAKE_CURRENT_SOURCE_DIR "C:/btcz/btcz/atomicDEX-Desktop/build")
+set(PROJECT_ROOT_DIR ${CMAKE_SOURCE_DIR})
+
+message("Log: CMAKE_SOURCE_DIR - ${CMAKE_SOURCE_DIR}")
+message("Log: CMAKE_CURRENT_SOURCE_DIR - ${CMAKE_CURRENT_SOURCE_DIR}")
+message("Log: PROJECT_ROOT_DIR - ${PROJECT_ROOT_DIR}")
+
+#get_filename_component(PROJECT_ROOT_DIR ${CMAKE_SOURCE_DIR} DIRECTORY)
 if (EXISTS ${PROJECT_ROOT_DIR}/build-Release)
     message(STATUS "from ci tools, readjusting")
     get_filename_component(PROJECT_ROOT_DIR ${PROJECT_ROOT_DIR} DIRECTORY)
@@ -8,9 +16,18 @@ endif ()
 
 message(STATUS "PROJECT_ROOT_DIR -> ${PROJECT_ROOT_DIR}")
 
+message("Log: CMAKE_SOURCE_DIR - ${CMAKE_SOURCE_DIR}")
+message("Log: CMAKE_CURRENT_SOURCE_DIR - ${CMAKE_CURRENT_SOURCE_DIR}")
+message("Log: PROJECT_ROOT_DIR - ${PROJECT_ROOT_DIR}")
+
 set(PROJECT_APP_DIR bin)
-set(PROJECT_APP_PATH ${CMAKE_SOURCE_DIR}/${PROJECT_APP_DIR})
+set(PROJECT_APP_PATH ${CMAKE_SOURCE_DIR}build/${PROJECT_APP_DIR})
 set(TARGET_APP_PATH ${PROJECT_ROOT_DIR}/bundled/windows)
+
+
+message("Log: PROJECT_APP_DIR - ${PROJECT_APP_DIR}")
+message("Log: PROJECT_APP_PATH - ${PROJECT_APP_PATH}")
+message("Log: TARGET_APP_PATH - ${TARGET_APP_PATH}")
 
 if (EXISTS ${PROJECT_APP_PATH})
     message(STATUS "PROJECT_APP_PATH path is -> ${PROJECT_APP_PATH}")
@@ -31,13 +48,13 @@ endif()
 
 if (NOT EXISTS ${TARGET_APP_PATH}/bin.zip)
 	message(STATUS "Copying ${CMAKE_SOURCE_DIR}/bin.zip to ${TARGET_APP_PATH}/${DEX_PROJECT_NAME}.zip")
-	file(COPY ${CMAKE_SOURCE_DIR}/bin.zip DESTINATION ${TARGET_APP_PATH})
+	file(COPY ${CMAKE_SOURCE_DIR}/build/bin.zip DESTINATION ${TARGET_APP_PATH})
 else()
 	message(STATUS "${TARGET_APP_PATH}/${DEX_PROJECT_NAME}.zip exists - skipping")
 endif()
 
 message(STATUS "Creating Installer")
-set(IFW_BINDIR $ENV{QT_ROOT}/Tools/QtInstallerFramework/4.1/bin)
+set(IFW_BINDIR C:/Qt/Tools/QtInstallerFramework/4.1/bin)
 message(STATUS "IFW_BIN PATH IS ${IFW_BINDIR}")
 if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/bin/${DEX_PROJECT_NAME}.7z)
 	execute_process(COMMAND ${IFW_BINDIR}/archivegen.exe ${DEX_PROJECT_NAME}.7z .
