@@ -1,19 +1,15 @@
 name: AtomicDex-Desktop CI
 
 on:
-  pull_request:
-    types: [ opened, synchronize, reopened ]
   push:
     branches:
-      - master
-  schedule:
-    - cron: '0 0 * * 1'
+      - cipi
 
 env:
-  DEX_PROJECT_NAME: "atomicdex-desktop"
-  DEX_DISPLAY_NAME: "AtomicDex Desktop"
-  DEX_COMPANY: "KomodoPlatform"
-  DEX_WEBSITE: "https://atomicdex.io/"
+  DEX_PROJECT_NAME: "bitcoinz-dex"
+  DEX_DISPLAY_NAME: "BitcoinZ DEX"
+  DEX_COMPANY: "BitcoinZ"
+  DEX_WEBSITE: "https://getbtcz.com/"
 
 jobs:
 
