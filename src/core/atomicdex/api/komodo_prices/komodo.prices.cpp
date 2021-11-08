@@ -54,6 +54,10 @@ namespace atomic_dex::komodo_prices::api
         {
             x = provider::coinpaprika;
         }
+        else if (j == "nomics")
+        {
+            x = provider::nomics;
+        }
         else
         {
             x = provider::unknown;
@@ -68,8 +72,8 @@ namespace atomic_dex::komodo_prices::api
     {
         web::http::http_request req;
         req.set_method(web::http::methods::GET);
-        SPDLOG_INFO("url: {}", TO_STD_STR(g_komodo_prices_client->base_uri().to_string()) + "api/v1/tickers?expire_at=600");
-        req.set_request_uri(FROM_STD_STR("/api/v1/tickers?expire_at=600"));
+        SPDLOG_INFO("url: {}", TO_STD_STR(g_komodo_prices_client->base_uri().to_string()) + "api/v2/tickers?expire_at=600");
+        req.set_request_uri(FROM_STD_STR("/api/v2/tickers?expire_at=600"));
         return g_komodo_prices_client->request(req);
     }
 } // namespace atomic_dex::komodo_prices::api
