@@ -182,24 +182,24 @@ jobs:
           ./ci_tools_atomic_dex build release
           ./ci_tools_atomic_dex bundle release
 
-      - name: import code signing certificates (macos)
-        if: runner.os == 'macOS'
-        uses: Apple-Actions/import-codesign-certs@v1
-        with:
-          keychain: ${{ github.run_id }}
-          keychain-password: ${{ github.run_id }}
-          p12-file-base64: ${{ secrets.CERTIFICATES_P12 }}
-          p12-password: ${{ secrets.CERTIFICATES_P12_PASSWORD }}
+#      - name: import code signing certificates (macos)
+#        if: runner.os == 'macOS'
+#        uses: Apple-Actions/import-codesign-certs@v1
+#        with:
+#          keychain: ${{ github.run_id }}
+#          keychain-password: ${{ github.run_id }}
+#          p12-file-base64: ${{ secrets.CERTIFICATES_P12 }}
+#          p12-password: ${{ secrets.CERTIFICATES_P12_PASSWORD }}
 
-      - name: import installer code signing certificates (macos)
-        if: runner.os == 'macOS'
-        uses: apple-actions/import-codesign-certs@v1
-        with:
-          keychain: ${{ github.run_id }}
-          keychain-password: ${{ github.run_id }}
-          create-keychain: false
-          p12-file-base64: ${{ secrets.CERTIFICATES_INSTALLER_P12 }}
-          p12-password: ${{ secrets.CERTIFICATES_P12_PASSWORD }}
+#      - name: import installer code signing certificates (macos)
+#        if: runner.os == 'macOS'
+#        uses: apple-actions/import-codesign-certs@v1
+#        with:
+#          keychain: ${{ github.run_id }}
+#          keychain-password: ${{ github.run_id }}
+#          create-keychain: false
+#          p12-file-base64: ${{ secrets.CERTIFICATES_INSTALLER_P12 }}
+#          p12-password: ${{ secrets.CERTIFICATES_P12_PASSWORD }}
 
       - name: Build AtomicDEX (MacOS)
         if: runner.os == 'macOS'
