@@ -12,6 +12,8 @@ namespace atomic_dex::komodo_prices::api
         binance,
         coingecko,
         coinpaprika,
+        forex,
+        nomics,
         unknown
     };
 

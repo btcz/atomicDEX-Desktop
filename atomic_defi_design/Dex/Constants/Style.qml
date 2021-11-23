@@ -254,7 +254,8 @@ QtObject {
             case 'Moonriver':   return getCoinColor("MOVR")
             case 'HecoChain':   return getCoinColor("HECO")
             case 'SmartBCH':    return getCoinColor("SBCH")
-            case 'Ethereum Classic': return getCoinColor("ETC")
+            case 'Ethereum Classic':  return getCoinColor("ETC")
+            case 'RSK Smart Bitcoin': return getCoinColor("BTC")
             default:            return getCoinColor("BTC")
         }
     }
@@ -292,6 +293,7 @@ QtObject {
                                           "BRZ": "#B5DEC3",
                                           "BSTY": "#78570D",
                                           "BTC": "#E9983C",
+                                          "RBTC": "#E9983C",
                                           "BTT": "#666666",
                                           "BTE": "#FFE201",
                                           "BTX": "#FB30A6",
@@ -301,6 +303,7 @@ QtObject {
                                           "CRV": "#517AB5",
                                           "DGC": "#BC7600",
                                           "DIMI": "#0BFBE2",
+                                          "DUST": "#6A032F",
                                           "EOS": "#4D4D4D",
                                           "FET": "#202944",
                                           "FTC": "#FFFFFF",
@@ -327,6 +330,7 @@ QtObject {
                                           "CADC": "#FF6666",
                                           "DGB": "#006AD2",
                                           "DOT": "#E80082",
+                                          "FLUX": "#2B61D1",
                                           "FIRO": "#BB2100",
                                           "LBC": "#00775C",
                                           "LTC": "#BFBBBB",
@@ -386,8 +390,6 @@ QtObject {
                                           "PAXG": "#DABE37",
                                           "REN": "#595959",
                                           "SMTF": "#F75836",
-                                          "SMTF-OLD": "#F75836",
-                                          "SMTF-v2": "#F75836",
                                           "SUSHI": "#E25DA8",
                                           "TRYB": "#0929AA",
                                           "TUSD": "#2E3181",
@@ -430,9 +432,11 @@ QtObject {
                                           "LEO": "#F79B2C",
                                           "LINK": "#356CE4",
                                           "LRC": "#32C2F8",
+                                          "LSTR": "#7E3193",
                                           "MANA": "#FF3C6C",
                                           "MATIC": "#804EE1",
                                           "MKR": "#1BAF9F",
+                                          "MTSLA": "#CC0000",
                                           "NEAR": "#595959",
                                           "NEXO": "#A3B3D6",
                                           "NVC": "#FCF96D",
@@ -441,10 +445,11 @@ QtObject {
                                           "ONE": "#00BEEE",
                                           "ONT": "#2692AF",
                                           "POWR": "#05BCAA",
+                                          "PPC": "#46BC60",
                                           "QI": "#FFFFFF",
                                           "QIAIR": "#FEFEFE",
                                           "QKC": "#2175B4",
-                                          "QNT": "#46DDC8",
+                                          "QNT": "#000000",
                                           "REP": "#0E0E21",
                                           "REV": "#78034D",
                                           "RLC": "#FFE100",
@@ -459,6 +464,7 @@ QtObject {
                                           "STORJ": "#2683FF",
                                           "SXP": "#FD5F3B",
                                           "SYS": "#0084C7",
+                                          "TEL": "#1BD8FF",
                                           "TKL": "#1E2835",
                                           "TRC": "#096432",
                                           "TRX": "#F30031",
