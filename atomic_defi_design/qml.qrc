@@ -159,6 +159,7 @@
         <file>assets/images/coins/mesh.png</file>
         <file>assets/images/coins/mgw.png</file>
         <file>assets/images/coins/mir.png</file>
+        <file>assets/images/coins/minds.png</file>
         <file>assets/images/coins/mkr.png</file>
         <file>assets/images/coins/mln.png</file>
         <file>assets/images/coins/mm.png</file>
@@ -605,5 +606,7 @@
         <file>Dex/main.qml</file>
         <file>qtquickcontrols2.conf</file>
         <file>Dex/Components/PopupManager.qml</file>
+        <file>imports/bignumberjs/qmldir</file>
+        <file>imports/bignumberjs/bignumber.js/bignumber.js</file>
     </qresource>
 </RCC>

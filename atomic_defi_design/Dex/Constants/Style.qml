@@ -441,6 +441,7 @@ QtObject {
                                           "MATIC": "#804EE1",
                                           "MKR": "#1BAF9F",
                                           "MTSLA": "#CC0000",
+                                          "MINDS": "#687DE3",
                                           "NEAR": "#595959",
                                           "NEXO": "#A3B3D6",
                                           "NVC": "#FCF96D",

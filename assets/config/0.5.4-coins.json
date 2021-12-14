@@ -1985,6 +1985,37 @@
     "active": false,
     "currently_enabled": false
   },
+  "DIMI-BEP20": {
+    "coin": "DIMI-BEP20",
+    "name": "DiminutiveCoin",
+    "coinpaprika_id": "dimi-diminutive-coin",
+    "coingecko_id": "diminutive-coin",
+    "nomics_id": "DIMI",
+    "nodes": [
+      "http://bsc1.cipig.net:8655",
+      "http://bsc2.cipig.net:8655",
+      "http://bsc3.cipig.net:8655"
+    ],
+    "explorer_url": [
+      "https://bscscan.com/"
+    ],
+    "type": "BEP-20",
+    "active": false,
+    "currently_enabled": false
+  },
+  "DIMI-QRC20": {
+    "coin": "DIMI-QRC20",
+    "name": "DiminutiveCoin",
+    "coinpaprika_id": "dimi-diminutive-coin",
+    "coingecko_id": "diminutive-coin",
+    "nomics_id": "DIMI",
+    "explorer_url": [
+      "https://explorer.qtum.org/"
+    ],
+    "type": "QRC-20",
+    "active": false,
+    "currently_enabled": false
+  },
   "DODO-BEP20": {
     "coin": "DODO-BEP20",
     "name": "DODO",
@@ -4875,6 +4906,24 @@
     "active": false,
     "currently_enabled": false
   },
+  "MINDS": {
+    "coin": "MINDS",
+    "name": "Minds",
+    "coinpaprika_id": "minds-minds",
+    "coingecko_id": "minds",
+    "nomics_id": "MINDS",
+    "nodes": [
+      "http://eth1.cipig.net:8555",
+      "http://eth2.cipig.net:8555",
+      "http://eth3.cipig.net:8555"
+    ],
+    "explorer_url": [
+      "https://etherscan.io/"
+    ],
+    "type": "ERC-20",
+    "active": false,
+    "currently_enabled": false
+  },
   "MGW": {
     "coin": "MGW",
     "name": "MGW",
@@ -7239,6 +7288,10 @@
         "url": "failover.zet.ewmci.xyz:50002",
         "protocol": "SSL",
         "disable_cert_verification": true
+      },
+      {
+        "url": "electrumx.zet.ewmcx.info:50001",
+        "protocol": "TCP"
       }
     ],
     "explorer_url": [
@@ -8929,12 +8982,11 @@
     "currently_enabled": false
   },
   "USBL": {
-    "active": false,
     "coin": "USBL",
-    "name": "Balanced",
+    "name": "Balanced Dollar",
     "coingecko_id": "test-coin",
     "coinpaprika_id": "test-coin",
-    "currently_enabled": false,
+    "nomics_id": "USBL",
     "electrum": [
       {
         "url": "swap.softbalanced.com:50001",
@@ -8950,7 +9002,9 @@
       "https://softbalanced.com:3001/insight/"
     ],
     "explorer_tx_url": "tx/",
-    "type": "UTXO"
+    "type": "UTXO",
+    "active": false,
+    "currently_enabled": false
   },
   "UTK": {
     "coin": "UTK",
