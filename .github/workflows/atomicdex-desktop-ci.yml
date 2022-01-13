@@ -3,6 +3,7 @@ name: AtomicDex-Desktop CI
 on:
   push:
     branches:
+      - master
       - cipi
 
 env:
