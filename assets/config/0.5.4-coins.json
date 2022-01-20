@@ -1096,7 +1096,7 @@
       },
       {
         "url": "electrum1.cipig.net:10000",
-        "ws_url": "electrum3.cipig.net:30000"
+        "ws_url": "electrum1.cipig.net:30000"
       }
     ],
     "explorer_url": [
@@ -2774,6 +2774,7 @@
     "name": "GRMS",
     "coingecko_id": "test-coin",
     "coinpaprika_id": "grms-grms",
+    "nomics_id": "GRMS",
     "electrum": [
       {
         "url": "89.108.102.188:17485"
@@ -4693,11 +4694,11 @@
       },
       {
         "url": "electrum2.cipig.net:10001",
-        "ws_url": "electrum3.cipig.net:30001"
+        "ws_url": "electrum2.cipig.net:30001"
       },
       {
         "url": "electrum1.cipig.net:10001",
-        "ws_url": "electrum3.cipig.net:30001"
+        "ws_url": "electrum1.cipig.net:30001"
       }
     ],
     "explorer_url": [
@@ -8583,6 +8584,58 @@
     "active": false,
     "currently_enabled": false
   },
+  "PRCY-BEP20": {
+    "coin": "PRCY-BEP20",
+    "name": "PRivaCY Coin",
+    "coinpaprika_id": "prcy-privacy-coin",
+    "coingecko_id": "privacy-coin",
+    "nomics_id": "PRCY",
+    "nodes": [
+      "http://bsc1.cipig.net:8655",
+      "http://bsc2.cipig.net:8655",
+      "http://bsc3.cipig.net:8655"
+    ],
+    "explorer_url": [
+      "https://bscscan.com/"
+    ],
+    "type": "BEP-20",
+    "active": false,
+    "currently_enabled": false
+  },
+  "PRCY-ERC20": {
+    "coin": "PRCY-ERC20",
+    "name": "PRivaCY Coin",
+    "coinpaprika_id": "prcy-privacy-coin",
+    "coingecko_id": "privacy-coin",
+    "nomics_id": "PRCY",
+    "nodes": [
+      "http://eth1.cipig.net:8555",
+      "http://eth2.cipig.net:8555",
+      "http://eth3.cipig.net:8555"
+    ],
+    "explorer_url": [
+      "https://etherscan.io/"
+    ],
+    "type": "ERC-20",
+    "active": false,
+    "currently_enabled": false
+  },
+  "PRCY-PLG20": {
+    "coin": "PRCY-PLG20",
+    "name": "PRivaCY Coin",
+    "coinpaprika_id": "prcy-privacy-coin",
+    "coingecko_id": "privacy-coin",
+    "nomics_id": "PRCY",
+    "nodes": [
+      "https://polygon-rpc.com"
+    ],
+    "explorer_url": [
+      "https://polygonscan.com/"
+    ],
+    "type": "Matic",
+    "active": false,
+    "currently_enabled": false
+  },
   "REP": {
     "coin": "REP",
     "name": "Reputation",
@@ -8843,6 +8896,7 @@
     "name": "Ubiq",
     "coinpaprika_id": "ubq-ubiq",
     "coingecko_id": "ubiq",
+    "nomics_id": "UBQ",
     "nodes": [
       "https://rpc.octano.dev/"
     ],
