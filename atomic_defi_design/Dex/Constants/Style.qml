@@ -453,6 +453,7 @@ QtObject {
                                           "POWR": "#05BCAA",
                                           "PPC": "#46BC60",
                                           "PRUX": "#FF8000",
+                                          "PRCY": "#012828",
                                           "QI": "#FFFFFF",
                                           "QIAIR": "#FEFEFE",
                                           "QKC": "#2175B4",
