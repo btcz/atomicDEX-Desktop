@@ -2015,6 +2015,42 @@
     "active": false,
     "currently_enabled": false
   },
+  "DIA-ERC20": {
+    "coin": "DIA-ERC20",
+    "name": "DIAToken",
+    "coinpaprika_id": "dia-dia",
+    "coingecko_id": "dia-data",
+    "nomics_id": "DIA",
+    "nodes": [
+      "http://eth1.cipig.net:8555",
+      "http://eth2.cipig.net:8555",
+      "http://eth3.cipig.net:8555"
+    ],
+    "explorer_url": [
+      "https://etherscan.io/"
+    ],
+    "type": "ERC-20",
+    "active": false,
+    "currently_enabled": false
+  },
+  "DIA-BEP20": {
+    "coin": "DIA-BEP20",
+    "name": "DIAToken",
+    "coinpaprika_id": "dia-dia",
+    "coingecko_id": "dia-data",
+    "nomics_id": "DIA",
+    "nodes": [
+      "http://bsc1.cipig.net:8655",
+      "http://bsc2.cipig.net:8655",
+      "http://bsc3.cipig.net:8655"
+    ],
+    "explorer_url": [
+      "https://bscscan.com/"
+    ],
+    "type": "BEP-20",
+    "active": false,
+    "currently_enabled": false
+  },
   "DIMI": {
     "coin": "DIMI",
     "name": "Diminutive Coin",
@@ -2144,6 +2180,44 @@
     ],
     "explorer_url": [
       "https://dogechain.info/"
+    ],
+    "type": "UTXO",
+    "active": false,
+    "currently_enabled": false
+  },
+  "DOI": {
+    "coin": "DOI",
+    "name": "Doichain",
+    "coinpaprika_id": "doi-doicoin",
+    "coingecko_id": "doichain",
+    "electrum": [
+      {
+        "url": "itchy-jellyfish-89.doi.works:50002",
+        "protocol": "SSL",
+        "ws-url": "itchy-jellyfish-89.doi.works:50004"
+      },
+      {
+        "url": "big-parrot-60.doi.works:50002",
+        "protocol": "SSL",
+        "ws-url": "big-parrot-60.doi.works:50004"
+      },
+      {
+        "url": "ugly-bird-70.doi.works:50002",
+        "protocol": "SSL",
+        "ws-url": "ugly-bird-70.doi.works:50004"
+      },
+      {
+        "url":"pink-deer-69.doi.works:50002",
+        "protocol": "SSL",
+        "ws-url": "pink-deer-69.doi.works:50004"
+      },
+      {
+        "url":"pink-deer-69.doi.works:50001",
+        "protocol": "TCP"
+      }
+    ],
+    "explorer_url": [
+      "https://explorer.doichain.org/"
     ],
     "type": "UTXO",
     "active": false,
@@ -2702,6 +2776,24 @@
     "coinpaprika_id": "fjcb-fjcb-fujicoin",
     "coingecko_id": "test-coin",
     "nomics_id": "FJCB",
+    "nodes": [
+      "http://bsc1.cipig.net:8655",
+      "http://bsc2.cipig.net:8655",
+      "http://bsc3.cipig.net:8655"
+    ],
+    "explorer_url": [
+      "https://bscscan.com/"
+    ],
+    "type": "BEP-20",
+    "active": false,
+    "currently_enabled": false
+  },
+  "FLOW-BEP20": {
+    "coin": "FLOW-BEP20",
+    "name": "Flow",
+    "coinpaprika_id": "flow-flow",
+    "coingecko_id": "flow",
+    "nomics_id": "FLOW2",
     "nodes": [
       "http://bsc1.cipig.net:8655",
       "http://bsc2.cipig.net:8655",
@@ -4544,6 +4636,28 @@
     "active": false,
     "currently_enabled": false
   },
+  "USDI": {
+    "coin": "USDI",
+    "name": "USD Inflation Coin",
+    "coinpaprika_id": "test-coin",
+    "coingecko_id": "test-coin",
+    "electrum": [
+      {
+        "url": "usdi1.blackcoin.nl:10002",
+        "protocol": "SSL"
+      },
+      {
+        "url": "usdi2.blackcoin.nl:20002",
+        "protocol": "SSL"
+      }
+    ],
+    "explorer_url": [
+      "https://usdiexplorer.com/"
+    ],
+    "type": "UTXO",
+    "active": false,
+    "currently_enabled": false
+  },
   "USDT-MVR20": {
     "coin": "USDT-MVR20",
     "name": "Tether",
@@ -5211,6 +5325,22 @@
     "explorer_url": [
       "https://pangea.explorer.dexstats.info/"
     ],
+    "active": false,
+    "currently_enabled": false
+  },
+  "PGX-PLG20": {
+    "coin": "PGX-PLG20",
+    "name": "Pegaxy Stone",
+    "coinpaprika_id": "test-coin",
+    "coingecko_id": "pegaxy-stone",
+    "nomics_id": "PGX",
+    "nodes": [
+      "https://polygon-rpc.com"
+    ],
+    "explorer_url": [
+      "https://polygonscan.com/"
+    ],
+    "type": "Matic",
     "active": false,
     "currently_enabled": false
   },
@@ -5933,7 +6063,7 @@
         "url": "electrumx3.monacoin.nl:50001"
       },
       {
-        "url": "electrumx1.monacoin.ninja:50001"
+        "url": "103.125.218.246:50001"
       },
       {
         "url": "electrumx.tamami-foundation.org:50001"
@@ -6522,6 +6652,24 @@
       "https://polygonscan.com/"
     ],
     "type": "Matic",
+    "active": false,
+    "currently_enabled": false
+  },
+  "SOL-BEP20": {
+    "coin": "SOL-BEP20",
+    "name": "Solana",
+    "coinpaprika_id": "sol-solana",
+    "coingecko_id": "solana",
+    "nomics_id": "SOL",
+    "nodes": [
+      "http://bsc1.cipig.net:8655",
+      "http://bsc2.cipig.net:8655",
+      "http://bsc3.cipig.net:8655"
+    ],
+    "explorer_url": [
+      "https://bscscan.com/"
+    ],
+    "type": "BEP-20",
     "active": false,
     "currently_enabled": false
   },
@@ -8191,23 +8339,6 @@
     "name": "CyberVeinToken",
     "coinpaprika_id": "cvt-cybervein",
     "coingecko_id": "cybervein",
-    "nodes": [
-      "http://eth1.cipig.net:8555",
-      "http://eth2.cipig.net:8555",
-      "http://eth3.cipig.net:8555"
-    ],
-    "explorer_url": [
-      "https://etherscan.io/"
-    ],
-    "type": "ERC-20",
-    "active": false,
-    "currently_enabled": false
-  },
-  "DIA": {
-    "coin": "DIA",
-    "name": "DIAToken",
-    "coinpaprika_id": "dia-dia",
-    "coingecko_id": "dia-data",
     "nodes": [
       "http://eth1.cipig.net:8555",
       "http://eth2.cipig.net:8555",
