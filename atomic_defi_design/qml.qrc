@@ -9,6 +9,7 @@
         <file>assets/fonts/Ubuntu-R.ttf</file>
         <file>assets/fonts/Ubuntu-RI.ttf</file>
         <file>assets/fonts/Ubuntu-Th.ttf</file>
+        <file>assets/images/addressbook.png</file>
         <file>assets/images/arrow-down.svg</file>
         <file>assets/images/arrow-up.svg</file>
         <file>assets/images/arrow_down.svg</file>
@@ -120,6 +121,7 @@
         <file>assets/images/coins/ftmt.png</file>
         <file>assets/images/coins/gala.png</file>
         <file>assets/images/coins/gleec.png</file>
+        <file>assets/images/coins/glmr.png</file>
         <file>assets/images/coins/gno.png</file>
         <file>assets/images/coins/grms.png</file>
         <file>assets/images/coins/gm.png</file>
@@ -133,6 +135,7 @@
         <file>assets/images/coins/hpy.png</file>
         <file>assets/images/coins/ht.png</file>
         <file>assets/images/coins/husd.png</file>
+        <file>assets/images/coins/ic.png</file>
         <file>assets/images/coins/il8p.png</file>
         <file>assets/images/coins/iln.png</file>
         <file>assets/images/coins/inj.png</file>
@@ -249,6 +252,7 @@
         <file>assets/images/coins/tel.png</file>
         <file>assets/images/coins/tft.png</file>
         <file>assets/images/coins/thc.png</file>
+        <file>assets/images/coins/thc_bep20.png</file>
         <file>assets/images/coins/thx.png</file>
         <file>assets/images/coins/tkl.png</file>
         <file>assets/images/coins/tmtg.png</file>
@@ -376,6 +380,7 @@
         <file>Dex/Components/ComponentWithTitle.qml</file>
         <file>Dex/Components/CopyFieldButton.qml</file>
         <file>Dex/Components/DangerButton.qml</file>
+        <file>Dex/Components/DefaultAlertIcon.qml</file>
         <file>Dex/Components/DefaultAnimatedImage.qml</file>
         <file>Dex/Components/DefaultBusyIndicator.qml</file>
         <file>Dex/Components/DefaultButton.qml</file>
@@ -411,7 +416,6 @@
         <file>Dex/Components/DexAppPasswordField.qml</file>
         <file>Dex/Components/DexBox.qml</file>
         <file>Dex/Components/DexBoxManager.qml</file>
-        <file>Dex/Components/DexBusyIndicator.qml</file>
         <file>Dex/Components/DexButton.qml</file>
         <file>Dex/Components/DexCheckBox.qml</file>
         <file>Dex/Components/DexCheckEye.qml</file>
@@ -476,6 +480,7 @@
         <file>Dex/Components/LogModal.qml</file>
         <file>Dex/Components/MinTradeModal.qml</file>
         <file>Dex/Components/ModalContent.qml</file>
+        <file>Dex/Components/ModalContent2.qml</file>
         <file>Dex/Components/ModalHeader.qml</file>
         <file>Dex/Components/ModalLoader.qml</file>
         <file>Dex/Components/OutlineButton.qml</file>
@@ -626,7 +631,7 @@
         <file>Dex/main.qml</file>
         <file>qtquickcontrols2.conf</file>
         <file>Dex/Components/PopupManager.qml</file>
-        <file>imports/bignumberjs/qmldir</file>
-        <file>imports/bignumberjs/bignumber.js/bignumber.js</file>
+        <file>bignumberjs/qmldir</file>
+        <file>bignumberjs/bignumber.js/bignumber.js</file>
     </qresource>
 </RCC>
