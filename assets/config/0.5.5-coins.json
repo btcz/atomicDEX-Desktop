@@ -238,6 +238,7 @@
     "name": "ArtByte (OLD)",
     "coinpaprika_id": "aby-artbyte",
     "coingecko_id": "artbyte",
+    "nomics_id": "ABY2",
     "electrum": [
       {
         "url": "electrumx.aby.ewmcx.biz:50002",
@@ -262,6 +263,7 @@
     "name": "ArtByte",
     "coinpaprika_id": "aby-artbyte",
     "coingecko_id": "artbyte",
+    "nomics_id": "ABY2",
     "electrum": [
       {
         "url": "elec-seeder-one.artbytecoin.org:50012",
@@ -274,6 +276,18 @@
         "protocol": "SSL",
         "disable_cert_verification": true,
         "ws_url": "elec-seeder-two.artbytecoin.org:50013"
+      },
+      {
+        "url": "electrumx-three.artbyte.live:50012",
+        "protocol": "SSL",
+        "disable_cert_verification": false,
+        "ws_url": "electrumx-three.artbyte.live:50013"
+      },
+      {
+        "url": "electrumx-four.artbyte.live:50012",
+        "protocol": "SSL",
+        "disable_cert_verification": false,
+        "ws_url": "electrumx-four.artbyte.live:50013"
       }
     ],
     "explorer_url": [
@@ -907,17 +921,17 @@
       {
         "url": "electrum1.blackcoin.nl:10002",
         "protocol": "SSL",
-        "disable_cert_verification": true
+        "disable_cert_verification": false
       },
       {
         "url": "electrum2.blackcoin.nl:20002",
         "protocol": "SSL",
-        "disable_cert_verification": true
+        "disable_cert_verification": false
       },
       {
         "url": "electrum3.blackcoin.nl:30002",
         "protocol": "SSL",
-        "disable_cert_verification": true
+        "disable_cert_verification": false
       }
     ],
     "explorer_url": [
@@ -3893,11 +3907,8 @@
       {
         "url": "electrum.gmsmining.pw:17485"
       },
-	  {
-        "url": "electrum1.gmsmining.pw:17485"
-      },
       {
-        "url": "electrum2.gmsmining.pw:17485"
+        "url": "electrum1.gmsmining.pw:17485"
       }
     ],
     "explorer_url": [
@@ -5360,7 +5371,7 @@
   "NYAN": {
     "coin": "NYAN",
     "name": "Nyancoin",
-    "coinpaprika_id": "test-coin",
+    "coinpaprika_id": "nyan-nyancoin",
     "coingecko_id": "test-coin",
     "nomics_id": "NYAN",
     "electrum": [
@@ -5448,6 +5459,28 @@
     "explorer_url": [
       "http://explorer.picacoin.org/"
     ],
+    "type": "UTXO",
+    "active": false,
+    "currently_enabled": false
+  },
+  "PND": {
+    "coin": "PND",
+    "name": "Pandacoin",
+    "coinpaprika_id": "pnd-pandacoin",
+    "coingecko_id": "pandacoin",
+    "nomics_id": "PND",
+    "electrum": [
+      {
+        "url": "electrum.thepandacoin.net:50002",
+        "protocol": "SSL",
+        "disable_cert_verification": false
+      }
+    ],
+    "explorer_url": [
+      "https://chainz.cryptoid.info/pnd/"
+    ],
+    "explorer_tx_url": "tx.dws?",
+    "explorer_address_url": "address.dws?",
     "type": "UTXO",
     "active": false,
     "currently_enabled": false
@@ -7459,8 +7492,8 @@
     "nomics_id": "XMY",
     "electrum": [
       {
-        "url": "lenoir.ecoincore.com:10892",
-        "protocol": "SSL"
+        "url": "lenoir.ecoincore.com:10891",
+        "protocol": "TCP"
       }
     ],
     "explorer_url": [

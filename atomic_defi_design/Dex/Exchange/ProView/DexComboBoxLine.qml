@@ -19,7 +19,7 @@ RowLayout
 
     Behavior on color { ColorAnimation { duration: Style.animationDuration } }
 
-    DefaultImage
+    DexImage
     {
         id: icon
         source: General.coinIcon(ticker)
@@ -37,19 +37,18 @@ RowLayout
             anchors.verticalCenter: parent.verticalCenter
             width: root.width - 40
 
-            DefaultText
+            DexText
             {
                 Layout.preferredWidth: parent.width - 15
 
                 text_value: !details ? "" :
                             `<font color="${root.color}"><b>${details.ticker}</b></font>&nbsp;&nbsp;&nbsp;<font color="${Dex.CurrentTheme.foregroundColor}">${details.name}</font>`
-                color: Style.colorText
                 font.pixelSize: Style.textSizeSmall3
                 elide: Text.ElideRight
                 wrapMode: Text.NoWrap
             }
 
-            DefaultText
+            DexText
             {
                 id: bottom_line
 
