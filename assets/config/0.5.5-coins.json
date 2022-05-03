@@ -421,6 +421,42 @@
     "active": false,
     "currently_enabled": false
   },
+  "APE-ERC20": {
+    "coin": "APE-ERC20",
+    "name": "ApeCoin",
+    "coinpaprika_id": "ape-apecoin",
+    "coingecko_id": "apecoin",
+    "nomics_id": "APE7",
+    "nodes": [
+      "http://eth1.cipig.net:8555",
+      "http://eth2.cipig.net:8555",
+      "http://eth3.cipig.net:8555"
+    ],
+    "explorer_url": [
+      "https://etherscan.io/"
+    ],
+    "type": "ERC-20",
+    "active": false,
+    "currently_enabled": false
+  },
+  "APE-BEP20": {
+    "coin": "APE-BEP20",
+    "name": "ApeCoin",
+    "coinpaprika_id": "ape-apecoin",
+    "coingecko_id": "apecoin",
+    "nomics_id": "APE7",
+    "nodes": [
+      "http://bsc1.cipig.net:8655",
+      "http://bsc2.cipig.net:8655",
+      "http://bsc3.cipig.net:8655"
+    ],
+    "explorer_url": [
+      "https://bscscan.com/"
+    ],
+    "type": "BEP-20",
+    "active": false,
+    "currently_enabled": false
+  },
   "ARRR-BEP20": {
     "coin": "ARRR-BEP20",
     "name": "Pirate",
@@ -2474,6 +2510,24 @@
     "active": false,
     "currently_enabled": false
   },
+  "EILN-ERC20": {
+    "coin": "EILN-ERC20",
+    "name": "Ilien",
+    "coinpaprika_id": "eiln-e-ilien",
+    "coingecko_id": "test-coin",
+    "nomics_id": "EILN",
+    "nodes": [
+      "http://eth1.cipig.net:8555",
+      "http://eth2.cipig.net:8555",
+      "http://eth3.cipig.net:8555"
+    ],
+    "explorer_url": [
+      "https://etherscan.io/"
+    ],
+    "type": "ERC-20",
+    "active": false,
+    "currently_enabled": false
+  },
   "ELF-BEP20": {
     "coin": "ELF-BEP20",
     "name": "aelf",
@@ -3561,13 +3615,7 @@
     "nomics_id": "LBC",
     "electrum": [
       {
-        "url": "spv1.lbry.com:50001"
-      },
-      {
-        "url": "spv17.lbry.com:50001"
-      },
-      {
-        "url": "spv19.lbry.com:50001"
+        "url": "spv16.lbry.com:50001"
       }
     ],
     "explorer_url": [
@@ -3700,17 +3748,17 @@
       {
         "url": "electrum.getlynx.io:50002",
         "protocol": "SSL",
-        "disable_cert_verification": false
+        "disable_cert_verification": true
       },
       {
         "url": "electrum.logware.us:50002",
         "protocol": "SSL",
-        "disable_cert_verification": false
+        "disable_cert_verification": true
       },
       {
         "url": "electrum.logware.club:50002",
         "protocol": "SSL",
-        "disable_cert_verification": false
+        "disable_cert_verification": true
       },
       {
         "url": "electrum.logware.io:50002",
@@ -5448,6 +5496,7 @@
     "name": "Picacoin",
     "coinpaprika_id": "pic-picacoin",
     "coingecko_id": "test-coin",
+    "nomics_id": "PIC3",
     "electrum": [
       {
         "url": "143.198.143.180:50001"
@@ -5700,7 +5749,7 @@
     "coin": "SMTF-v2",
     "name": "SmartFi",
     "coinpaprika_id": "smtf-smartfi",
-    "coingecko_id": "test-coin",
+    "coingecko_id": "smartfi",
     "nomics_id": "SMTF",
     "nodes": [
       "http://bsc1.cipig.net:8655",
@@ -6121,6 +6170,7 @@
     "name": "iLien",
     "coingecko_id": "test-coin",
     "coinpaprika_id": "test-coin",
+    "nomics_id": "ILN",
     "electrum": [
       {
         "url": "electrum1.ilien.io:65011"
@@ -6132,6 +6182,24 @@
     "explorer_url": [
       "https://iln.explorer.dexstats.info/"
     ],
+    "active": false,
+    "currently_enabled": false
+  },
+  "ILN-BEP20": {
+    "coin": "ILN-BEP20",
+    "name": "Ilien",
+    "coinpaprika_id": "test-coin",
+    "coingecko_id": "test-coin",
+    "nomics_id": "ILN",
+    "nodes": [
+      "http://bsc1.cipig.net:8655",
+      "http://bsc2.cipig.net:8655",
+      "http://bsc3.cipig.net:8655"
+    ],
+    "explorer_url": [
+      "https://bscscan.com/"
+    ],
+    "type": "BEP-20",
     "active": false,
     "currently_enabled": false
   },
@@ -6733,6 +6801,24 @@
     "active": false,
     "currently_enabled": false
   },
+  "SAND-BEP20": {
+    "coin": "SAND-BEP20",
+    "name": "The Sandbox",
+    "coinpaprika_id": "sand-the-sandbox",
+    "coingecko_id": "the-sandbox",
+    "nomics_id": "SAND2",
+    "nodes": [
+      "http://bsc1.cipig.net:8655",
+      "http://bsc2.cipig.net:8655",
+      "http://bsc3.cipig.net:8655"
+    ],
+    "explorer_url": [
+      "https://bscscan.com/"
+    ],
+    "type": "BEP-20",
+    "active": false,
+    "currently_enabled": false
+  },
   "SAND-PLG20": {
     "coin": "SAND-PLG20",
     "name": "The Sandbox",
@@ -7311,6 +7397,24 @@
     "active": false,
     "currently_enabled": false
   },
+  "VET-BEP20": {
+    "coin": "VET-BEP20",
+    "name": "VeChain",
+    "coinpaprika_id": "vet-vechain",
+    "coingecko_id": "vechain",
+    "nomics_id": "VET",
+    "nodes": [
+      "http://bsc1.cipig.net:8655",
+      "http://bsc2.cipig.net:8655",
+      "http://bsc3.cipig.net:8655"
+    ],
+    "explorer_url": [
+      "https://bscscan.com/"
+    ],
+    "type": "BEP-20",
+    "active": false,
+    "currently_enabled": false
+  },
   "VRA": {
     "coin": "VRA",
     "name": "Verasity",
@@ -7346,6 +7450,24 @@
       "https://explorer-vrm.vericonomy.com/"
     ],
     "type": "UTXO",
+    "active": false,
+    "currently_enabled": false
+  },
+  "WAVES-BEP20": {
+    "coin": "WAVES-BEP20",
+    "name": "Waves",
+    "coinpaprika_id": "waves-waves",
+    "coingecko_id": "waves",
+    "nomics_id": "WAVES",
+    "nodes": [
+      "http://bsc1.cipig.net:8655",
+      "http://bsc2.cipig.net:8655",
+      "http://bsc3.cipig.net:8655"
+    ],
+    "explorer_url": [
+      "https://bscscan.com/"
+    ],
+    "type": "BEP-20",
     "active": false,
     "currently_enabled": false
   },
@@ -8970,6 +9092,24 @@
       "https://etherscan.io/"
     ],
     "type": "ERC-20",
+    "active": false,
+    "currently_enabled": false
+  },
+  "MANA-BEP20": {
+    "coin": "MANA-BEP20",
+    "name": "Decentraland",
+    "coinpaprika_id": "mana-decentraland",
+    "coingecko_id": "decentraland",
+    "nomics_id": "MANA",
+    "nodes": [
+      "http://bsc1.cipig.net:8655",
+      "http://bsc2.cipig.net:8655",
+      "http://bsc3.cipig.net:8655"
+    ],
+    "explorer_url": [
+      "https://bscscan.com/"
+    ],
+    "type": "BEP-20",
     "active": false,
     "currently_enabled": false
   },
