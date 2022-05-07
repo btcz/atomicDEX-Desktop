@@ -7,16 +7,19 @@ import App 1.0
 import "../../../Components"
 
 // Content
-ColumnLayout {
+ColumnLayout
+{
     id: root
 
-    property
-    var details
+    property var details
+    property var last_event
 
     readonly property
     var all_events: !details ? [] : has_error_event ? details.events.map(e => e.state) : details.success_events
 
-    readonly property bool has_error_event: {
+    // Is there error in swap json?
+    readonly property bool has_error_event:
+    {
         if (!details) return false
 
         const events = details.events
@@ -28,7 +31,9 @@ ColumnLayout {
         return false
     }
 
-    readonly property double total_time_passed: {
+    // Total swaptime from sum of events duration
+    readonly property double total_time_passed:
+    {
         if (!details) return 0
 
         const events = details.events
@@ -40,7 +45,10 @@ ColumnLayout {
         return sum
     }
 
-    readonly property double total_time_passed_estimated: {
+
+    // Total swap duration estimate
+    readonly property double total_time_passed_estimated:
+    {
         const events = all_events
 
         let sum = 0
@@ -50,7 +58,9 @@ ColumnLayout {
         return sum
     }
 
-    readonly property int current_event_idx: {
+    // Current Event index
+    readonly property int current_event_idx:
+    {
         if (!details) return -1
         const events = details.events
         if (events.length === 0) return -1
@@ -67,48 +77,127 @@ ColumnLayout {
 
     // Simulated time of the running event
     property double simulated_time: 0
-    function updateSimulatedTime() {
-        if (!details) {
+    function updateSimulatedTime()
+    {
+        if (!details)
+        {
             simulated_time = 0
             return
         }
 
         const events = details.events
-        if (!events || events.length === 0) {
+        if (!events || events.length === 0)
+        {
             simulated_time = 0
             return
         }
 
-        const last_event = events[events.length - 1]
-        if (!last_event.timestamp) {
+        last_event = events[events.length - 1]
+        if (!last_event.timestamp)
+        {
             simulated_time = 0
             return
         }
 
-        if (current_event_idx !== -1) {
+        if (current_event_idx !== -1)
+        {
             const diff = Date.now() - last_event.timestamp
             simulated_time = diff - (diff % 1000)
+
         } else simulated_time = 0
     }
 
-    Timer {
+    Timer
+    {
         running: current_event_idx !== -1
         interval: 1000
         repeat: true
         onTriggered: updateSimulatedTime()
     }
 
-    function getTimeText(duration, estimated) {
+    // Simulated countdown time until refund unlocked
+    property double payment_lock_countdown_time: -1    // First we wait for locktime expiry
+    property double wait_until_countdown_time: -1      // Then we count down to 'wait_until' time
+    function updateCountdownTime()
+    {
+        if (current_event_idx == -1 || !details)
+        {
+            payment_lock_countdown_time = -1
+            return
+        }
+
+        const events = details.events
+
+        if (events[current_event_idx - 1].hasOwnProperty('data'))
+        {
+            if (events[current_event_idx - 1]['data'].hasOwnProperty('wait_until'))
+            {
+                const diff = events[current_event_idx - 1]['data']['wait_until'] * 1000 - Date.now()
+                wait_until_countdown_time = diff - (diff % 1000)
+
+                if (wait_until_countdown_time <= 0)
+                {
+                    wait_until_countdown_time = 0
+                }
+            }
+        }
+
+        else
+        {
+            wait_until_countdown_time = -1
+        }
+
+        if (details.hasOwnProperty('payment_lock'))
+        {
+            const lock_diff = details.payment_lock - Date.now()
+            payment_lock_countdown_time = lock_diff - (lock_diff % 1000)
+
+            if (payment_lock_countdown_time <= 0)
+            {
+                payment_lock_countdown_time = 0
+            }
+        }
+
+        else
+        {
+            payment_lock_countdown_time = -1
+        }
+    }
+
+    Timer
+    {
+        running: !has_error_event ? false : details.events[details.events.length - 1].state == "Finished" ? false : true
+        interval: 1000
+        repeat: true
+        onTriggered: updateCountdownTime()
+    }
+
+    function getTimeText(duration, estimated)
+    {
         return `<font color="${DexTheme.greenColor}">` + qsTr("act", "SHORT FOR ACTUAL TIME") + ": " + `</font>` +
             `<font color="${DexTheme.foregroundColorLightColor0}">` + General.durationTextShort(duration) + `</font>` +
             `<font color="${DexTheme.foregroundColorLightColor2}"> | ` + qsTr("est", "SHORT FOR ESTIMATED") + ": " +
             General.durationTextShort(estimated) + `</font>`
     }
 
-    onTotal_time_passedChanged: updateSimulatedTime()
+    function getRefundText()
+    {
+        if ((payment_lock_countdown_time > 0) && (wait_until_countdown_time == -1))
+        {
+            return `<font color="${DexTheme.foregroundColorDarkColor4}">` + qsTr(General.durationTextShort(payment_lock_countdown_time) + " until refund lock is released.") + `</font>`
+        }
+        else if (wait_until_countdown_time > 0) {
+            if (last_event.state !== "Finished") {
+                return `<font color="${DexTheme.foregroundColorDarkColor4}">` + qsTr(General.durationTextShort(wait_until_countdown_time) + " until refund completed.") + `</font>`
+            }
+        }
+        return ""
+    }
 
     // Title
-    DefaultText {
+    DexLabel
+    {
+        Layout.fillWidth: true
         text_value: `<font color="${DexTheme.foregroundColorDarkColor4}">` + qsTr("Progress details") + `</font>` +
             `<font color="${DexTheme.foregroundColorLightColor2}"> | </font>` +
             getTimeText(total_time_passed + simulated_time, total_time_passed_estimated)
@@ -116,14 +205,16 @@ ColumnLayout {
         Layout.bottomMargin: 10
     }
 
-    Repeater {
-        Layout.fillWidth: true
+    Repeater
+    {
         Layout.fillHeight: true
         model: all_events
 
-        delegate: Item {
+        delegate: Item
+        {
             readonly property
-            var event: {
+            var event:
+            {
                 if (!details) return undefined
                 const idx = details.events.map(e => e.state).indexOf(modelData)
                 if (idx === -1) return undefined
@@ -140,16 +231,18 @@ ColumnLayout {
             width: root.width
             height: 50
 
-            DefaultText {
+            DexLabel {
                 id: icon
 
                 text_value: is_active ? "●" : "○"
                 anchors.left: parent.left
                 anchors.leftMargin: 10
                 anchors.verticalCenter: col_layout.verticalCenter
-                color: {
+                color:
+                {
                     // Already exists, completed event
-                    if (event) {
+                    if (event)
+                    {
                         // Red for the Finished if swap failed
                         if (event.state === "Finished" && details.order_status === "failed") return DexTheme.redColor
 
@@ -166,7 +259,8 @@ ColumnLayout {
                 }
             }
 
-            ColumnLayout {
+            ColumnLayout
+            {
                 id: col_layout
 
                 anchors.left: icon.right
@@ -174,7 +268,8 @@ ColumnLayout {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
 
-                DefaultText {
+                DexLabel
+                {
                     id: name
 
                     font.pixelSize: Style.textSizeSmall4
@@ -183,22 +278,25 @@ ColumnLayout {
                     color: event ? DexTheme.foregroundColor : is_current_event ? DexTheme.foregroundColorLightColor0 : DexTheme.foregroundColorLightColor2 
                 }
 
-                AnimatedRectangle {
+                AnimatedRectangle
+                {
                     id: bar
                     visible: is_active
-                    width: 300
+                    width: parent.width
                     height: 2
 
                     color: DexTheme.foregroundColorDarkColor3 
 
-                    AnimatedRectangle {
+                    AnimatedRectangle
+                    {
                         width: parent.width * (total_time_passed > 0 ? (time_passed / (total_time_passed + simulated_time)) : 0)
                         height: parent.height
                         color: DexTheme.greenColor
                     }
                 }
 
-                DefaultText {
+                DexLabel
+                {
                     visible: bar.visible
                     font.pixelSize: Style.textSizeSmall2
 
