@@ -2512,7 +2512,7 @@
   },
   "EILN-ERC20": {
     "coin": "EILN-ERC20",
-    "name": "Ilien",
+    "name": "ilien",
     "coinpaprika_id": "eiln-e-ilien",
     "coingecko_id": "test-coin",
     "nomics_id": "EILN",
@@ -3109,6 +3109,24 @@
     "active": false,
     "currently_enabled": false
   },
+  "GMT-BEP20": {
+    "coin": "GMT-BEP20",
+    "name": "STEPN",
+    "coinpaprika_id": "test-coin",
+    "coingecko_id": "stepn",
+    "nomics_id": "GMT7",
+    "nodes": [
+      "http://bsc1.cipig.net:8655",
+      "http://bsc2.cipig.net:8655",
+      "http://bsc3.cipig.net:8655"
+    ],
+    "explorer_url": [
+      "https://bscscan.com/"
+    ],
+    "type": "BEP-20",
+    "active": false,
+    "currently_enabled": false
+  },
   "GRMS": {
     "coin": "GRMS",
     "type": "Smart Chain",
@@ -3222,6 +3240,24 @@
       "https://polygonscan.com/"
     ],
     "type": "Matic",
+    "active": false,
+    "currently_enabled": false
+  },
+  "GST-BEP20": {
+    "coin": "GST-BEP20",
+    "name": "Green Satoshi Token",
+    "coinpaprika_id": "gst-gst",
+    "coingecko_id": "green-satoshi-token",
+    "nomics_id": "GST7",
+    "nodes": [
+      "http://bsc1.cipig.net:8655",
+      "http://bsc2.cipig.net:8655",
+      "http://bsc3.cipig.net:8655"
+    ],
+    "explorer_url": [
+      "https://bscscan.com/"
+    ],
+    "type": "BEP-20",
     "active": false,
     "currently_enabled": false
   },
@@ -6167,10 +6203,10 @@
   "ILN": {
     "coin": "ILN",
     "type": "Smart Chain",
-    "name": "iLien",
+    "name": "ilien",
     "coingecko_id": "test-coin",
     "coinpaprika_id": "test-coin",
-    "nomics_id": "ILN",
+    "nomics_id": "ILNPOS",
     "electrum": [
       {
         "url": "electrum1.ilien.io:65011"
@@ -6187,10 +6223,10 @@
   },
   "ILN-BEP20": {
     "coin": "ILN-BEP20",
-    "name": "Ilien",
+    "name": "ilien",
     "coinpaprika_id": "test-coin",
     "coingecko_id": "test-coin",
-    "nomics_id": "ILN",
+    "nomics_id": "ILNPOS",
     "nodes": [
       "http://bsc1.cipig.net:8655",
       "http://bsc2.cipig.net:8655",
@@ -6200,6 +6236,22 @@
       "https://bscscan.com/"
     ],
     "type": "BEP-20",
+    "active": false,
+    "currently_enabled": false
+  },
+  "ILN-PLG20": {
+    "coin": "ILN-PLG20",
+    "name": "ilien",
+    "coinpaprika_id": "test-coin",
+    "coingecko_id": "test-coin",
+    "nomics_id": "ILNPOS",
+    "nodes": [
+      "https://polygon-rpc.com"
+    ],
+    "explorer_url": [
+      "https://polygonscan.com/"
+    ],
+    "type": "Matic",
     "active": false,
     "currently_enabled": false
   },
@@ -6440,7 +6492,9 @@
     "nomics_id": "NMC",
     "electrum": [
       {
-        "url": "82.119.233.36:50001"
+        "url": "nmc.bitcoins.sk:50002",
+        "protocol": "SSL",
+        "disable_cert_verification": true
       },
       {
         "url": "nmc2.bitcoins.sk:57002",
