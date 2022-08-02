@@ -19,6 +19,8 @@ SetupPage
     signal backClicked()
     signal postConfirmSuccess(string walletName)
 
+    image_scale: 0.7
+
     function reset()
     {
         text_error = "";
@@ -38,14 +40,13 @@ SetupPage
         }
     }
 
-    image_scale: 0.7
-
-    content: DexRectangle
+    content: DefaultRectangle
     {
         color: Dex.CurrentTheme.floatingBackgroundColor
         width: column_layout.width + 50
         height: column_layout.height + 60
         radius: 18
+
         function reset()
         {
             recover_seed.reset();
@@ -85,14 +86,14 @@ SetupPage
         ColumnLayout
         {
             id: column_layout
-
             anchors.centerIn: parent
-
             spacing: Style.rowSpacing
+
             RowLayout
             {
                 Layout.fillWidth: true
                 spacing: 10
+
                 SquareButton
                 {
                     icon.source: Qaterial.Icons.chevronLeft
@@ -125,8 +126,6 @@ SetupPage
 
             }
 
-
-
             ModalLoader
             {
                 id: eula_modal
@@ -139,6 +138,7 @@ SetupPage
                     }
                 }
             }
+
             ColumnLayout
             {
                 visible: currentStep === 0
@@ -158,6 +158,8 @@ SetupPage
                     field.placeholderText: qsTr("Wallet Name")
                     field.onAccepted: tryPassLevel1()
                     field.onTextChanged: text_error = General.validateWallet(input_wallet_name.field.text)
+                    field.forceFocus: true
+
                     DefaultRectangle
                     {
                         x: 5
@@ -197,7 +199,7 @@ SetupPage
                     }
                 }
 
-                DexLabel
+                DefaultText
                 {
                     id: _seedError
                     visible: _seedField.error
@@ -207,7 +209,7 @@ SetupPage
                     font: DexTypo.body2
                 }
 
-                DexCheckBox
+                DefaultCheckBox
                 {
                     id: allow_custom_seed
                     Layout.fillWidth: true
@@ -230,6 +232,7 @@ SetupPage
                                 closePolicy: Popup.NoAutoClose,
                                 text: qsTr("Custom seed phrases might be less secure and easier to crack than a generated BIP39 compliant seed phrase or private key (WIF).<br><br>To confirm you understand the risk and know what you are doing, type <strong>'I understand'</strong> in the box below."),
                                 placeholderText: qsTr("I understand"),
+                                forceFocus: true,
                                 standardButtons: Dialog.Yes | Dialog.Cancel,
                                 validator: (text) =>
                                 {
@@ -298,6 +301,7 @@ SetupPage
                 Layout.preferredWidth: 460
                 Layout.rightMargin: 5
                 spacing: Style.rowSpacing
+
                 DexAppPasswordField
                 {
                     id: _inputPassword
@@ -339,7 +343,6 @@ SetupPage
                         Layout.fillWidth: true
                         Layout.preferredHeight: 10
                     }
-
 
                     DexGradientAppButton
                     {

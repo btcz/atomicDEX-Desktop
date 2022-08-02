@@ -52,12 +52,12 @@ Item {
     }
 
     function applyDateFilter() {
-        list_model_proxy.filter_minimum_date = min_date.date
+        list_model_proxy.filter_minimum_date = min_date.selectedDate
 
-        if (max_date.date < min_date.date)
-            max_date.date = min_date.date
+        if (max_date.selectedDate < min_date.selectedDate)
+            max_date.selectedDate = min_date.selectedDate
 
-        list_model_proxy.filter_maximum_date = max_date.date
+        list_model_proxy.filter_maximum_date = max_date.selectedDate
     }
 
     function applyTickerFilter() {
@@ -90,7 +90,7 @@ Item {
         RowLayout
         {
             spacing: 10
-            DexButton
+            DefaultButton
             {
                 Layout.preferredWidth: 86
                 Layout.preferredHeight: 29
@@ -101,7 +101,7 @@ Item {
                 onClicked: settings.visible = !settings.visible
             }
 
-            DexButton
+            DefaultButton
             {
                 visible: root.is_history
                 Layout.preferredWidth: 86
@@ -116,11 +116,11 @@ Item {
                 }
             }
 
-            DexLabel
+            DefaultText
             {
                 color: Dex.CurrentTheme.foregroundColor2
                 visible: !settings.visible
-                text: qsTr("Filter") + ": %1 / %2 <br> %3: %4 - %5".arg(combo_base.currentTicker).arg(combo_rel.currentTicker).arg(qsTr("Date")).arg(min_date.date.toLocaleDateString(Locale.ShortFormat, "yyyy-MM-dd")).arg(max_date.date.toLocaleDateString(Locale.ShortFormat, "yyyy-MM-dd"))
+                text: qsTr("Filter") + ": %1 / %2 <br> %3: %4 - %5".arg(combo_base.currentTicker).arg(combo_rel.currentTicker).arg(qsTr("Date")).arg(min_date.selectedDate.toLocaleDateString(Locale.ShortFormat, "yyyy-MM-dd")).arg(max_date.selectedDate.toLocaleDateString(Locale.ShortFormat, "yyyy-MM-dd"))
             }
         }
 
@@ -133,7 +133,7 @@ Item {
             RowLayout
             {
                 spacing: 10
-                DexButton
+                DefaultButton
                 {
                     visible: root.is_history
                     enabled: list_model_proxy.can_i_apply_filtering
@@ -144,7 +144,8 @@ Item {
                     text: qsTr("Apply Filter")
                     onClicked: list_model_proxy.apply_all_filtering()
                 }
-                DexButton
+
+                DefaultButton
                 {
                     visible: !root.is_history
                     enabled: API.app.orders_mdl.length > 0
@@ -162,7 +163,7 @@ Item {
             {
                 Layout.alignment: Qt.AlignHCenter
 
-                DexSweetComboBox
+                DefaultSweetComboBox
                 {
                     id: combo_base
                     Layout.preferredWidth: parent.width / 2 - swapCoinFilterIcon.width
@@ -179,7 +180,8 @@ Item {
                     id: swapCoinFilterIcon
                     source: Qaterial.Icons.swapHorizontal
                     color: Dex.CurrentTheme.foregroundColor
-                    DexMouseArea
+
+                    DefaultMouseArea
                     {
                         id: swap_button
                         anchors.fill: parent
@@ -193,7 +195,7 @@ Item {
                     }
                 }
 
-                DexSweetComboBox
+                DefaultSweetComboBox
                 {
                     id: combo_rel
                     Layout.fillWidth: true
@@ -206,37 +208,31 @@ Item {
                 }
             }
 
-            RowLayout
+            Row
             {
-                Qaterial.TextFieldDatePicker
+                Layout.fillWidth: true
+                DatePicker
                 {
                     id: min_date
-                    title: qsTr("From")
-                    from: default_min_date
-                    to: default_max_date
-                    date: default_min_date
-                    font.pixelSize: 13
-                    opacity: .8
-                    color: Dex.CurrentTheme.foregroundColor
-                    backgroundColor: DexTheme.portfolioPieGradient ? '#FFFFFF' : 'transparent'
+                    width: parent.width * 0.45
+                    titleText: qsTr("From")
+                    minimumDate: default_min_date
+                    maximumDate:  default_max_date
+                    selectedDate: default_min_date
                     onAccepted: applyDateFilter()
-                    Layout.fillWidth: true
                 }
 
-                Qaterial.TextFieldDatePicker
+                Item { width: parent.width * 0.1; height: 1 }
+
+                DatePicker
                 {
                     id: max_date
-                    enabled: min_date.enabled
-                    title: qsTr("To")
-                    from: min_date.date
-                    to: default_max_date
-                    date: default_max_date
-                    font.pixelSize: 13
-                    opacity: .8
-                    color: Dex.CurrentTheme.foregroundColor
-                    backgroundColor: DexTheme.portfolioPieGradient ? '#FFFFFF' : 'transparent'
+                    width: parent.width * 0.45
+                    titleText: qsTr("To")
+                    minimumDate: default_min_date
+                    maximumDate: default_max_date
+                    selectedDate: default_max_date
                     onAccepted: applyDateFilter()
-                    Layout.fillWidth: true
                 }
             }
         }

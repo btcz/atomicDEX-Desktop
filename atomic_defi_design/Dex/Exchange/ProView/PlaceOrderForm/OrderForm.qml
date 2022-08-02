@@ -63,7 +63,7 @@ ColumnLayout
             id: input_price
 
             left_text: qsTr("Price")
-            right_text: atomic_qt_utilities.retrieve_main_ticker(right_ticker)
+            right_text: right_ticker
             enabled: !(API.app.trading_pg.preffered_order.price !== undefined)
             text: backend_price
             width: parent.width
@@ -102,7 +102,7 @@ ColumnLayout
             height: 41
             radius: 18
             left_text: qsTr("Volume")
-            right_text: atomic_qt_utilities.retrieve_main_ticker(left_ticker)
+            right_text: left_ticker
             placeholderText: sell_mode ? qsTr("Amount to sell") : qsTr("Amount to receive")
             text: API.app.trading_pg.volume
             onTextChanged: setVolume(text)
@@ -197,7 +197,7 @@ ColumnLayout
         Layout.fillWidth: true
         spacing: 5
 
-        DexCheckBox
+        DefaultCheckBox
         {
             id: _useCustomMinTradeAmountCheckbox
             boxWidth: 20
@@ -205,7 +205,7 @@ ColumnLayout
             labelWidth: 0
         }
 
-        DexLabel {
+        DefaultText {
             Layout.fillWidth: true
             height: _useCustomMinTradeAmountCheckbox.height
             horizontalAlignment: Text.AlignLeft

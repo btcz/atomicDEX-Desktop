@@ -15,17 +15,17 @@ FloatingBackground
     Layout.fillWidth: true
 
     property var            details
-    property alias          clickable: mouse_area.enabled
+    property alias          clickable: mouseArea.enabled
     readonly property bool  is_placed_order: !details ? false : details.order_id !== ''
 
     height: 50
 
-    color: mouse_area.containsMouse ? Dex.CurrentTheme.accentColor : Dex.CurrentTheme.floatingBackgroundColor
+    color: mouseArea.containsMouse ? Dex.CurrentTheme.accentColor : Dex.CurrentTheme.floatingBackgroundColor
     radius: 0
 
-    DexMouseArea
+    DefaultMouseArea
     {
-        id: mouse_area
+        id: mouseArea
         anchors.fill: parent
         hoverEnabled: enabled
         onClicked:
@@ -47,7 +47,7 @@ FloatingBackground
             Layout.preferredWidth: 24
             Layout.alignment: Qt.AlignCenter
 
-            DexLabel
+            DefaultText
             {
                 id: statusText
                 anchors.centerIn: parent
@@ -84,7 +84,7 @@ FloatingBackground
 
                 clip: true
 
-                DexLabel
+                DefaultText
                 {
                     id: baseAmountLabel
                     anchors.left: parent.left
@@ -97,7 +97,7 @@ FloatingBackground
                     maximumLineCount: 1
                 }
 
-                DexLabel
+                DefaultText
                 {
                     anchors.left: baseAmountLabel.right
                     anchors.leftMargin: 3
@@ -120,7 +120,7 @@ FloatingBackground
                     iconSize: 18
                 }
 
-                DexLabel
+                DefaultText
                 {
                     anchors.right: relAmountInCurrCurrency.left
                     anchors.rightMargin: 3
@@ -133,7 +133,7 @@ FloatingBackground
                     maximumLineCount: 1
                 }
 
-                DexLabel
+                DefaultText
                 {
                     id: relAmountInCurrCurrency
 
@@ -153,7 +153,7 @@ FloatingBackground
                 Layout.fillWidth: true
                 Layout.preferredHeight: childrenRect.height
 
-                DexImage
+                DefaultImage
                 {
                     id: baseIcon
 
@@ -166,7 +166,7 @@ FloatingBackground
                     source: General.coinIcon(!details ? atomic_app_primary_coin : details.base_coin ?? atomic_app_primary_coin)
                 }
 
-                DexLabel
+                DefaultText
                 {
                     anchors.left: baseIcon.right
                     anchors.leftMargin: 2
@@ -180,7 +180,7 @@ FloatingBackground
                     maximumLineCount: 1
                 }
 
-                DexLabel
+                DefaultText
                 {
                     visible: clickable
 
@@ -194,7 +194,7 @@ FloatingBackground
                     color: Dex.CurrentTheme.foregroundColor2
                 }
 
-                DexLabel
+                DefaultText
                 {
                     anchors.right: relCoin.left
                     anchors.rightMargin: 2
@@ -208,7 +208,7 @@ FloatingBackground
                     maximumLineCount: 1
                 }
 
-                DexImage
+                DefaultImage
                 {
                     id: relCoin
 
@@ -229,7 +229,7 @@ FloatingBackground
             Layout.preferredWidth: 24
             Layout.alignment: Qt.AlignCenter
 
-            DexLabel
+            DefaultText
             {
                 anchors.centerIn: parent
 
@@ -238,15 +238,15 @@ FloatingBackground
                 text_value: Style.warningCharacter
                 color: Style.colorYellow
 
-                DexTooltip
+                DefaultTooltip
                 {
-                    contentItem: DexLabel
+                    contentItem: DefaultText
                     {
                         text_value: qsTr("Funds are recoverable")
                         font.pixelSize: Style.textSizeSmall4
                     }
 
-                    visible: (parent.visible && mouse_area.containsMouse) ?? false
+                    visible: (parent.visible && mouseArea.containsMouse) ?? false
                 }
             }
 
@@ -256,7 +256,7 @@ FloatingBackground
                 anchors.centerIn: parent
                 anchors.fill: parent
 
-                visible: (!is_history ? details.cancellable ?? false : false) === true ? (mouse_area.containsMouse || hovered) ? true : false : false
+                visible: (!is_history ? details.cancellable ?? false : false) === true ? (mouseArea.containsMouse || hovered) ? true : false : false
 
                 outlinedColor: Dex.CurrentTheme.noColor
                 hoverEnabled: true

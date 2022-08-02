@@ -63,11 +63,10 @@ DefaultListView
                     visible: transaction_note !== ""
                 }
 
-                Arrow
+                TransactionArrow
                 {
                     id: received_icon
-                    up: am_i_sender ? true : false
-                    color: !am_i_sender ? Dex.CurrentTheme.arrowUpColor : Dex.CurrentTheme.arrowDownColor
+                    amISender: am_i_sender ? true : false
                 }
 
                 // Description
@@ -86,7 +85,13 @@ DefaultListView
                 id: crypto_amount
                 Layout.preferredWidth: _cryptoColumnWidth
                 horizontalAlignment: Text.AlignRight
-                text_value: General.formatCrypto(!am_i_sender, amount, api_wallet_page.ticker, false, false, 6, true)
+                text_value:
+                {
+                    api_wallet_page.ticker.length > 6 
+                    ? General.formatCrypto(!am_i_sender, amount, '', false, false, 6, true)
+                    : General.formatCrypto(!am_i_sender, amount, api_wallet_page.ticker, false, false, 6, true)
+
+                }
                 font.pixelSize: description.font.pixelSize
                 color: am_i_sender ? Dex.CurrentTheme.noColor : Dex.CurrentTheme.okColor
                 privacy: true

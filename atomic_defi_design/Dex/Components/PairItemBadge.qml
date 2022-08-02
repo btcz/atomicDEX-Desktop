@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
 
-DexRectangle
+DefaultRectangle
 {
     id: root
     property alias source: icon.source
@@ -9,8 +9,8 @@ DexRectangle
     property alias fullname: fullname.text
     property alias amount: amount.text
 
-    Layout.preferredWidth: 260
-    Layout.preferredHeight: 66
+    width: 260
+    height: 66
     radius: 10
 
     RowLayout
@@ -23,7 +23,7 @@ DexRectangle
 
         Item { Layout.fillWidth: true }
 
-        DexImage
+        DefaultImage
         {
             id: icon
             Layout.preferredWidth: 35
@@ -40,7 +40,7 @@ DexRectangle
             Layout.alignment: Qt.AlignVCenter
             spacing: 5
 
-            DexLabel
+            DefaultText
             {
                 id: ticker
                 Layout.fillWidth: true
@@ -49,7 +49,7 @@ DexRectangle
                 wrapMode: Text.NoWrap
             }
 
-            DexLabel
+            DefaultText
             {
                 id: amount
                 Layout.fillWidth: true
@@ -68,7 +68,7 @@ DexRectangle
             Layout.alignment: Qt.AlignVCenter
             spacing: 5
 
-            DexLabel
+            DefaultText
             {
                 id: fullname
                 Layout.fillWidth: true
@@ -77,7 +77,7 @@ DexRectangle
                 font.pixelSize: 11
             }
 
-            DexLabel
+            DefaultText
             {
                 id: amount_fiat
                 visible: text != ''

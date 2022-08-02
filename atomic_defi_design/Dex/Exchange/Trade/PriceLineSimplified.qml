@@ -14,13 +14,13 @@ ColumnLayout
     readonly property string price_reversed: API.app.trading_pg.price_reversed
     readonly property string cex_price: API.app.trading_pg.cex_price
     readonly property string cex_price_reversed: API.app.trading_pg.cex_price_reversed
-    readonly property string cex_price_diff: API.app.trading_pg.cex_price_diff
+    readonly property string cexPriceDiff: API.app.trading_pg.cex_price_diff
     readonly property bool invalid_cex_price: API.app.trading_pg.invalid_cex_price
     readonly property bool price_entered: !General.isZero(non_null_price)
 
     readonly property int fontSize: Style.textSizeSmall1
     readonly property int fontSizeBigger: Style.textSizeSmall2
-    readonly property int line_scale: General.getComparisonScale(cex_price_diff)
+    readonly property int lineScale: General.getComparisonScale(cexPriceDiff)
 
     spacing: 35
 
@@ -33,7 +33,7 @@ ColumnLayout
             visible: price_entered
             Layout.fillWidth: true
 
-            DexLabel
+            DefaultText
             {
                 Layout.fillWidth: true
                 horizontalAlignment: invalid_cex_price ? Text.AlignHCenter : Text.AlignLeft
@@ -42,7 +42,7 @@ ColumnLayout
             }
 
             // Price reversed
-            DexLabel
+            DefaultText
             {
                 Layout.fillWidth: true
                 horizontalAlignment: invalid_cex_price ? Text.AlignHCenter : Text.AlignLeft
@@ -51,7 +51,7 @@ ColumnLayout
             }
 
             // Price
-            DexLabel
+            DefaultText
             {
                 visible: price != 1
                 Layout.fillWidth: true
@@ -66,7 +66,7 @@ ColumnLayout
             visible: !invalid_cex_price
             Layout.fillWidth: true
 
-            DexLabel
+            DefaultText
             {
                 Layout.fillWidth: true
                 horizontalAlignment: Text.AlignRight
@@ -77,7 +77,7 @@ ColumnLayout
             }
 
             // Price reversed
-            DexLabel
+            DefaultText
             {
                 Layout.fillWidth: true
                 horizontalAlignment: Text.AlignRight
@@ -86,7 +86,7 @@ ColumnLayout
             }
 
             // Price
-            DexLabel
+            DefaultText
             {
                 Layout.fillWidth: true
                 horizontalAlignment: Text.AlignRight
@@ -120,20 +120,20 @@ ColumnLayout
                     height: parent.height * 2
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.horizontalCenterOffset: 0.5 * parent.width * Math.min(Math.max(parseFloat(cex_price_diff) / line_scale, -1), 1)
+                    anchors.horizontalCenterOffset: 0.5 * parent.width * Math.min(Math.max(parseFloat(cexPriceDiff) / lineScale, -1), 1)
                 }
 
-                DexLabel
+                DefaultText
                 {
-                    text_value: General.formatPercent(line_scale)
+                    text_value: General.formatPercent(lineScale)
                     font.pixelSize: fontSize
                     anchors.top: parent.top
                     anchors.topMargin: -15
                 }
 
-                DexLabel
+                DefaultText
                 {
-                    text_value: General.formatPercent(-line_scale)
+                    text_value: General.formatPercent(-lineScale)
                     font.pixelSize: fontSize
                     anchors.top: parent.top
                     anchors.topMargin: -15
@@ -142,13 +142,13 @@ ColumnLayout
             }
         }
 
-        DexLabel
+        DefaultText
         {
             id: price_diff_text
             Layout.topMargin: 10
             Layout.alignment: Qt.AlignHCenter
-            color: parseFloat(cex_price_diff) <= 0 ? Dex.CurrentTheme.okColor : Dex.CurrentTheme.noColor
-            text_value: (parseFloat(cex_price_diff) > 0 ? qsTr("Expensive") : qsTr("Expedient")) + ":&nbsp;&nbsp;&nbsp;&nbsp;" + qsTr("%1 compared to CEX", "PRICE_DIFF%").arg("<b>" + General.formatPercent(General.limitDigits(cex_price_diff)) + "</b>")
+            color: parseFloat(cexPriceDiff) <= 0 ? Dex.CurrentTheme.okColor : Dex.CurrentTheme.noColor
+            text_value: (parseFloat(cexPriceDiff) > 0 ? qsTr("Expensive") : qsTr("Expedient")) + ":&nbsp;&nbsp;&nbsp;&nbsp;" + qsTr("%1 compared to CEX", "PRICE_DIFF%").arg("<b>" + General.formatPercent(General.limitDigits(cexPriceDiff)) + "</b>")
             font.pixelSize: fontSize
         }
     }

@@ -4,7 +4,6 @@ import QtQuick.Controls 2.15
 import App 1.0
 import Dex.Themes 1.0 as Dex
 
-
 ScrollBar
 {
     id: control
@@ -17,7 +16,7 @@ ScrollBar
 
     contentItem: Item
     {
-        DexRectangle
+        DefaultRectangle
         {
             width: parent.width
             height: parent.height
@@ -31,7 +30,7 @@ ScrollBar
     {
         width: 6
         x: 0
-        DexRectangle
+        DefaultRectangle
         {
             visible: control.visibleBackground
             width: parent.width

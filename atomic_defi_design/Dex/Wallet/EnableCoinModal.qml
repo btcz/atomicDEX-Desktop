@@ -36,7 +36,6 @@ MultipageModal
         filterCoins("");
         setCheckState(false);
         coin_cfg_model.checked_nb = 0;
-        input_coin_filter.forceActiveFocus();
     }
 
     onClosed: 
@@ -64,7 +63,7 @@ MultipageModal
             Layout.fillWidth: true
             Layout.preferredHeight: 44
             textField.placeholderText: qsTr("Search asset")
-
+            textField.forceFocus: true
             textField.onTextChanged: filterCoins()
         }
 
@@ -75,7 +74,7 @@ MultipageModal
             Layout.fillWidth: true
             Layout.preferredHeight: 24
 
-            DexCheckBox
+            DefaultCheckBox
             {
                 id: _selectAllCheckBox
                 Layout.fillWidth: true
@@ -96,7 +95,7 @@ MultipageModal
 
         HorizontalLine { Layout.topMargin: 5; Layout.alignment: Qt.AlignHCenter; Layout.fillWidth: true }
 
-        DexListView
+        DefaultListView
         {
             id: list
             visible: coin_cfg_model.all_disabled_proxy.length > 0
@@ -119,7 +118,7 @@ MultipageModal
                     Layout.fillWidth: true
                     Layout.preferredHeight: 24
 
-                    DexCheckBox
+                    DefaultCheckBox
                     {
                         id: listInnerRowCheckbox
                         readonly property bool backend_checked: model.checked
@@ -150,7 +149,7 @@ MultipageModal
                             spacing: 0
 
                             // Icon
-                            DexImage
+                            DefaultImage
                             {
                                 id: icon
                                 Layout.leftMargin: 24
@@ -160,7 +159,7 @@ MultipageModal
                                 Layout.preferredHeight: 18
                             }
 
-                            DexLabel
+                            DefaultText
                             {
                                 Layout.leftMargin: 4
                                 Layout.alignment: Qt.AlignVCenter
@@ -196,7 +195,7 @@ MultipageModal
                     }
                 }
 
-                DexMouseArea
+                DefaultMouseArea
                 {
                     anchors.fill: parent
                     onClicked: listInnerRowCheckbox.checked = !listInnerRowCheckbox.checked
@@ -210,7 +209,7 @@ MultipageModal
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
 
-            DexLabel
+            DefaultText
             {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
@@ -264,7 +263,7 @@ MultipageModal
 
         footer:
         [
-            DexAppButton
+            DefaultButton
             {
                 Layout.preferredWidth: 199
                 text: qsTr("Close")

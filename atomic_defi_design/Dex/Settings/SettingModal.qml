@@ -1,4 +1,3 @@
-//! Qt Imports
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.15
@@ -8,15 +7,13 @@ import QtQml 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls.Universal 2.12
 
-//! 3rdParty Imports
 import Qaterial 1.0 as Qaterial
 
-//! Project Imports
 import "../Components"
 import "../Constants"
 import App 1.0
 import Dex.Themes 1.0 as Dex
-
+import Dex.Components 1.0 as Dex
 
 Qaterial.Dialog
 {
@@ -40,7 +37,7 @@ Qaterial.Dialog
 
     function disconnect()
     {
-        let dialog = app.showText(
+        let dialog = app.showDialog(
         {
             "title": qsTr("Confirm Logout"),
             text: qsTr("Are you sure you want to log out?"),
@@ -305,7 +302,7 @@ Qaterial.Dialog
 
                                 onClicked:
                                 {
-                                    dialog = app.showText(
+                                    dialog = app.showDialog(
                                     {
                                         title: qsTr("Reset wallet configuration"),
                                         text: qsTr("This will restart your wallet with default settings"),
@@ -349,7 +346,7 @@ Qaterial.Dialog
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 height: 50
 
-                                DexLabel
+                                Dex.Text
                                 {
                                     Layout.alignment: Qt.AlignVCenter
                                     Layout.fillWidth: true
@@ -359,25 +356,22 @@ Qaterial.Dialog
 
                                 Item { Layout.fillWidth: true }
 
-                                Item {
-                                    width: 150
-                                    DexComboBox
+                                Dex.ComboBox
+                                {
+                                    Layout.alignment: Qt.AlignVCenter
+                                    editable: true
+                                    model: ["Ubuntu", "Montserrat", "Roboto"]
+
+                                    onCurrentTextChanged:
                                     {
-                                        Layout.alignment: Qt.AlignVCenter
-                                        editable: true
-                                        model: ["Ubuntu", "Montserrat", "Roboto"]
+                                        DexTypo.fontFamily = currentText
+                                        console.info(qsTr("Current font changed to %1.").arg(currentText))
+                                    }
 
-                                        onCurrentTextChanged:
-                                        {
-                                            DexTypo.fontFamily = currentText
-                                            console.info(qsTr("Current font changed to %1.").arg(currentText))
-                                        }
-
-                                        Component.onCompleted:
-                                        {
-                                            let current = DexTypo.fontFamily
-                                            currentIndex = model.indexOf(current)
-                                        }
+                                    Component.onCompleted:
+                                    {
+                                        let current = DexTypo.fontFamily
+                                        currentIndex = model.indexOf(current)
                                     }
                                 }
                             }
@@ -389,7 +383,7 @@ Qaterial.Dialog
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 height: 50
 
-                                DexLabel
+                                Dex.Text
                                 {
                                     Layout.alignment: Qt.AlignVCenter
                                     Layout.fillWidth: true
@@ -399,31 +393,26 @@ Qaterial.Dialog
 
                                 Item { Layout.fillWidth: true }
 
-                                Item
+                                Dex.ComboBox
                                 {
-                                    width: 150
+                                    Layout.alignment: Qt.AlignVCenter
+                                    model: API.qt_utilities.get_themes_list()
+                                    currentIndex: model.indexOf(atomic_settings2.value("CurrentTheme"))
 
-                                    DexComboBox
+                                    onActivated:
                                     {
-                                        Layout.alignment: Qt.AlignVCenter
-                                        model: API.qt_utilities.get_themes_list()
-                                        currentIndex: model.indexOf(atomic_settings2.value("CurrentTheme"))
+                                        let chosenTheme = model[index];
 
-                                        onActivated:
-                                        {
-                                            let chosenTheme = model[index];
+                                        console.info(qsTr("Changing theme to %1").arg(chosenTheme));
+                                        atomic_settings2.setValue("CurrentTheme", chosenTheme);
+                                        atomic_settings2.sync();
+                                        Dex.CurrentTheme.loadFromFilesystem(chosenTheme);
+                                    }
 
-                                            console.info(qsTr("Changing theme to %1").arg(chosenTheme));
-                                            atomic_settings2.setValue("CurrentTheme", chosenTheme);
-                                            atomic_settings2.sync();
-                                            Dex.CurrentTheme.loadFromFilesystem(chosenTheme);
-                                        }
-
-                                        Component.onCompleted:
-                                        {
-                                            let current = atomic_settings2.value("CurrentTheme")
-                                            currentIndex = model.indexOf(current)
-                                        }
+                                    Component.onCompleted:
+                                    {
+                                        let current = atomic_settings2.value("CurrentTheme")
+                                        currentIndex = model.indexOf(current)
                                     }
                                 }
                             }
@@ -468,6 +457,7 @@ Qaterial.Dialog
                                 width: parent.width - 30
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 height: 60
+
                                 DexLabel
                                 {
                                     Layout.fillWidth: true
@@ -475,16 +465,67 @@ Qaterial.Dialog
                                     font: DexTypo.subtitle1
                                     text: qsTr("Ask system's password before sending coins ? (2FA)")
                                 }
-                                DexSwitch
+
+                                DefaultSwitch
                                 {
                                     checked: parseInt(atomic_settings2.value("2FA")) === 1
                                     onCheckedChanged:
                                     {
-                                        if (checked)
+                                        if (checked) {
                                             atomic_settings2.setValue("2FA", 1)
-                                        else
-                                            atomic_settings2.setValue("2FA", 0)
-                                        atomic_settings2.sync()
+                                            atomic_settings2.sync()
+                                        }
+                                        else {
+                                            var wallet_name = API.app.wallet_mgr.wallet_default_name
+                                            let dialog = app.getText(
+                                            {
+                                                "title": qsTr("Disable 2FA?"),
+                                                text: qsTr("Enter your wallet password to confirm"),
+                                                standardButtons: Dialog.Yes | Dialog.Cancel,
+                                                closePolicy: Popup.NoAutoClose,
+                                                warning: true,
+                                                iconColor: Dex.CurrentTheme.noColor,
+                                                isPassword: true,
+                                                placeholderText: qsTr("Type password"),
+                                                yesButtonText: qsTr("Confirm"),
+                                                cancelButtonText: qsTr("Cancel"),
+                                                onRejected: function()
+                                                {
+                                                    checked = true
+                                                },
+                                                onAccepted: function(text)
+                                                {
+                                                    if (API.app.wallet_mgr.confirm_password(wallet_name, text))
+                                                    {
+                                                        app.showDialog(
+                                                        {
+                                                            title: qsTr("2FA status"),
+                                                            text: qsTr("2FA disabled successfully"),
+                                                            yesButtonText: qsTr("Ok"),
+                                                            titleBold: true,
+                                                            standardButtons: Dialog.Ok
+                                                        })
+                                                        atomic_settings2.setValue("2FA", 0)
+                                                        atomic_settings2.sync()
+                                                    }
+                                                    else
+                                                    {
+                                                        app.showDialog(
+                                                        {
+                                                            title: qsTr("Wrong password!"),
+                                                            text: "%1 ".arg(wallet_name) + qsTr("Wallet password is incorrect"),
+                                                            warning: true,
+                                                            standardButtons: Dialog.Ok,
+                                                            titleBold: true,
+                                                            yesButtonText: qsTr("Ok"),
+                                                        })
+                                                        checked = true
+                                                    }
+                                                    dialog.close()
+                                                    dialog.destroy()
+                                                }
+                                            });
+                                        }
                                     }
                                 }
                             }
@@ -632,7 +673,7 @@ Qaterial.Dialog
                     family: DexTypo.fontFamily,
                     weight: Font.Normal
                 })
-                onClicked: new_update_modal.open()
+                onClicked: newUpdateModal.open()
             }
 
             DexAppButton

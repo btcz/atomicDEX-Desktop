@@ -122,7 +122,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                DexLabel
+                DefaultText
                 {
                     font: DexTypo.head6
                     anchors.verticalCenter: parent.verticalCenter
@@ -225,7 +225,7 @@ Item {
 
                         SearchField
                         {
-                            id: coin_search_field
+                            id: coinSearchField
                             Layout.alignment: Qt.AlignVCenter
                             Layout.preferredWidth: 206
                             Layout.preferredHeight: 42
@@ -240,7 +240,7 @@ Item {
                             Layout.fillWidth: true
                         }
 
-                        DexCheckBox
+                        DefaultCheckBox
                         {
                             id: hide_zero_balance_checkbox
 
