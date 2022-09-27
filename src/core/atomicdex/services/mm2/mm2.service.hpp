@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright © 2013-2021 The Komodo Platform Developers.                      *
+ * Copyright © 2013-2022 The Komodo Platform Developers.                      *
  *                                                                            *
  * See the AUTHORS, DEVELOPER-AGREEMENT and LICENSE files at                  *
  * the top-level directory of this distribution for the individual copyright  *
@@ -16,21 +16,17 @@
 
 #pragma once
 
-//! Qt
-#include <QNetworkAccessManager>
-
 #include <shared_mutex>
 #include <thread>
 #include <unordered_set>
+#include <unordered_map>
 
-//! Deps
+#include <QNetworkAccessManager>
 #include <antara/gaming/ecs/system.hpp>
 #include <antara/gaming/ecs/system.manager.hpp>
 #include <boost/thread/shared_mutex.hpp>
 #include <boost/thread/synchronized_value.hpp>
-//#include <reproc++/reproc.hpp>
 
-//! Project Headers
 #include "atomicdex/api/mm2/mm2.client.hpp"
 #include "atomicdex/api/mm2/mm2.constants.hpp"
 #include "atomicdex/api/mm2/mm2.error.code.hpp"
@@ -39,7 +35,8 @@
 #include "atomicdex/api/mm2/rpc.max.taker.vol.hpp"
 #include "atomicdex/api/mm2/rpc.min.volume.hpp"
 #include "atomicdex/api/mm2/rpc.orderbook.hpp"
-#include "atomicdex/config/coins.cfg.hpp"
+#include "atomicdex/api/mm2/enable_bch_with_tokens_rpc.hpp"
+#include "atomicdex/api/mm2/enable_slp_rpc.hpp"
 #include "atomicdex/config/raw.mm2.coins.cfg.hpp"
 #include "atomicdex/constants/dex.constants.hpp"
 #include "atomicdex/data/dex/orders.and.swaps.data.hpp"
@@ -59,9 +56,6 @@ namespace atomic_dex
     using t_coins_registry = std::unordered_map<t_ticker, coin_config>;
     using t_coins          = std::vector<coin_config>;
 
-    //! Constants
-    inline constexpr const std::size_t g_tx_max_limit{50};
-
     class ENTT_API mm2_service final : public ag::ecs::pre_update_system<mm2_service>
     {
       public:
@@ -69,7 +63,6 @@ namespace atomic_dex
         using t_pair_min_vol = std::pair<t_min_volume_answer_success, t_min_volume_answer_success>;
 
       private:
-        //! Private typedefs
         using t_mm2_time_point             = std::chrono::high_resolution_clock::time_point;
         using t_balance_registry           = std::unordered_map<t_ticker, t_balance_answer>;
         using t_tx_registry                = t_shared_synchronized_value<std::unordered_map<t_ticker, std::pair<t_transactions, t_tx_state>>>;
@@ -82,13 +75,7 @@ namespace atomic_dex
 
         ag::ecs::system_manager& m_system_manager;
 
-        //! Client
-        // std::shared_ptr<t_http_client>  m_mm2_client{nullptr};
-        // pplx::cancellation_token_source m_token_source;
-        mm2_client m_mm2_client;
-
-        //! Process
-        //reproc::process m_mm2_instance;
+        mm2::mm2_client m_mm2_client;
 
         //! Current ticker
         t_synchronized_ticker m_current_ticker{g_primary_dex_coin};
@@ -105,6 +92,8 @@ namespace atomic_dex
         //! Atomicity / Threads
         std::atomic_bool m_mm2_running{false};
         std::atomic_bool m_orderbook_thread_active{false};
+        std::atomic_bool m_zhtlc_enable_thread_active{false};
+        std::atomic_size_t m_nb_update_required{0};
         std::thread      m_mm2_init_thread;
 
         //! Current wallet name
@@ -133,7 +122,7 @@ namespace atomic_dex
         std::tuple<nlohmann::json, std::vector<std::string>, std::vector<std::string>> prepare_batch_balance_and_tx(bool only_tx = false) const;
         auto batch_balance_and_tx(bool is_a_reset, std::vector<std::string> tickers = {}, bool is_during_enabling = false, bool only_tx = false);
         void process_balance_answer(const nlohmann::json& answer);
-        void process_tx_answer(const nlohmann::json& answer_json);
+        void process_tx_answer(const nlohmann::json& answer_json, std::string ticker);
         void process_tx_tokenscan(const std::string& ticker, bool is_a_refresh);
         void fetch_single_balance(const coin_config& cfg_infos);
 
@@ -165,26 +154,44 @@ namespace atomic_dex
 
         void on_gui_leave_trading(const gui_leave_trading& evt);
 
+        void on_zhtlc_enter_enabling(const zhtlc_enter_enabling& evt);
+
+        void on_zhtlc_leave_enabling(const zhtlc_leave_enabling& evt);
+
         //! Spawn mm2 instance with given seed
         void spawn_mm2_instance(std::string wallet_name, std::string passphrase, bool with_pin_cfg = false);
 
         //! Refresh the current info (internally call process_balance and process_tx)
         void fetch_infos_thread(bool is_a_fresh = true, bool only_tx = false);
 
-        //! Enable coins
-        bool enable_default_coins();
+        // Coins enabling functions
+        bool enable_default_coins(); // Enables required coins + coins enabled in the config
+        void enable_coins(const std::vector<std::string>& tickers);
+        void enable_coins(const t_coins& coins);
+        void enable_coin(const std::string& ticker);
+        void enable_coin(const coin_config& coin_config);
+      private:
+        void enable_erc_family_coin(const coin_config& coin_config);
+        void enable_erc_family_coins(const t_coins& coins);
+        void enable_utxo_qrc20_coin(coin_config coin_config);
+        void enable_utxo_qrc20_coins(const t_coins& coins);
+        void enable_slp_coin(coin_config coin_config);
+        void enable_slp_coins(const t_coins& coins);
+        void enable_slp_testnet_coin(coin_config coin_config);
+        void enable_slp_testnet_coins(const t_coins& coins);
+        void enable_zhtlc(const t_coins& coins);
+        
+        // Balances processing functions
+        void process_balance_answer(const mm2::enable_bch_with_tokens_rpc& rpc);    // Called after enabling SLP coins along tBCH/BCH.
+        void process_balance_answer(const mm2::enable_slp_rpc& rpc);                // Called after enabling an SLP coin.
 
-        //! Batch Enable coins
-        void batch_enable_coins(const std::vector<std::string>& tickers, bool first_time = false);
-
-        //! Enable multiple coins
-        void enable_multiple_coins(const std::vector<std::string>& tickers);
-
+      public:
         //! Add a new coin in the coin_info cfg add_new_coin(normal_cfg, mm2_cfg)
         void               add_new_coin(const nlohmann::json& coin_cfg_json, const nlohmann::json& raw_coin_cfg_json);
         void               remove_custom_coin(const std::string& ticker);
         [[nodiscard]] bool is_this_ticker_present_in_raw_cfg(const std::string& ticker) const;
         [[nodiscard]] bool is_this_ticker_present_in_normal_cfg(const std::string& ticker) const;
+        [[nodiscard]] bool is_zhtlc_coin_ready(const std::string coin) const;
 
         //! Disable a single coin
         bool disable_coin(const std::string& ticker, std::error_code& ec);
@@ -223,6 +230,12 @@ namespace atomic_dex
 
         //! Get Specific info about one coin
         [[nodiscard]] coin_config get_coin_info(const std::string& ticker) const;
+        
+        // Tells if the given coin is enabled.
+        [[nodiscard]] bool is_coin_enabled(const std::string& ticker) const;
+        
+        // Tells if the given is coin is present inside the config.
+        [[nodiscard]] bool has_coin(const std::string& ticker) const;
 
         //! Get Current orderbook
         [[nodiscard]] t_orderbook_answer get_orderbook(t_mm2_ec& ec) const;
@@ -237,6 +250,7 @@ namespace atomic_dex
         [[nodiscard]] bool do_i_have_enough_funds(const std::string& ticker, const t_float_50& amount) const;
 
         [[nodiscard]] bool is_orderbook_thread_active() const;
+        [[nodiscard]] bool is_zhtlc_enable_thread_active() const;
 
         [[nodiscard]] nlohmann::json get_raw_mm2_ticker_cfg(const std::string& ticker) const;
 
@@ -248,11 +262,9 @@ namespace atomic_dex
         void               reset_fake_balance_to_zero(const std::string& ticker);
         void               decrease_fake_balance(const std::string& ticker, const std::string& amount);
         void               batch_fetch_orders_and_swap(bool after_manual_reset = false);
-        void               add_orders_answer(t_my_orders_answer answer);
 
         //! Async API
-        mm2_client& get_mm2_client();
-        //[[nodiscard]] pplx::cancellation_token get_cancellation_token() const;
+        mm2::mm2_client& get_mm2_client();
 
         //! Wallet api
         [[nodiscard]] std::string get_current_ticker() const;
