@@ -25,6 +25,8 @@
 #include <boost/algorithm/string/case_conv.hpp>
 
 // Project Headers
+#include "atomicdex/api/mm2/get_public_key_rpc.hpp"
+#include "atomicdex/config/enable.cfg.hpp"
 #include "atomicdex/events/events.hpp"
 #include "atomicdex/managers/qt.wallet.manager.hpp"
 #include "atomicdex/models/qt.global.coins.cfg.model.hpp"
@@ -35,7 +37,6 @@
 #include "atomicdex/services/price/global.provider.hpp"
 #include "atomicdex/utilities/global.utilities.hpp"
 #include "atomicdex/utilities/qt.utilities.hpp"
-#include "atomicdex/api/mm2/get_public_key_rpc.hpp"
 
 namespace
 {
@@ -43,10 +44,10 @@ namespace
     {
         if (not icon_filepath.isEmpty())
         {
-            const fs::path& suffix = fs::path(icon_filepath.toStdString()).extension();
-            fs::copy_file(
-                icon_filepath.toStdString(), fs::path(icons_path_directory.toStdString()) / (boost::algorithm::to_lower_copy(ticker) + suffix.string()),
-                get_override_options());
+            const std::filesystem::path& suffix = std::filesystem::path(icon_filepath.toStdString()).extension();
+            std::filesystem::copy_file(
+                icon_filepath.toStdString(), std::filesystem::path(icons_path_directory.toStdString()) / (boost::algorithm::to_lower_copy(ticker) + suffix.string()),
+                std::filesystem::copy_options::overwrite_existing);
         }
     }
 } // anonymous namespace
@@ -99,6 +100,10 @@ namespace atomic_dex
             else if (current_lang == "en")
             {
                 return QLocale::Language::English;
+            }
+            else if (current_lang == "es")
+            {
+                return QLocale::Language::Spanish;
             }
             else if (current_lang == "de")
             {
@@ -394,7 +399,7 @@ namespace atomic_dex
                     out["adex_cfg"][ticker]["gui_coin"]          = ticker;
                     out["adex_cfg"][ticker]["name"]              = body_json.at("qrc20").at("name").get<std::string>();
                     out["adex_cfg"][ticker]["coingecko_id"]      = coingecko_id.toStdString();
-                    out["adex_cfg"][ticker]["explorer_url"]      = nlohmann::json::array({"https://explorer.qtum.org/"});
+                    out["adex_cfg"][ticker]["explorer_url"]      = "https://explorer.qtum.org/";
                     out["adex_cfg"][ticker]["type"]              = "QRC-20";
                     out["adex_cfg"][ticker]["active"]            = true;
                     out["adex_cfg"][ticker]["currently_enabled"] = false;
@@ -502,7 +507,7 @@ namespace atomic_dex
                     out["adex_cfg"][ticker]["name"]              = name_lowercase;
                     out["adex_cfg"][ticker]["coingecko_id"]      = coingecko_id.toStdString();
                     const auto& coin_info                        = mm2.get_coin_info(parent_chain);
-                    out["adex_cfg"][ticker]["nodes"]             = coin_info.urls.value_or(std::vector<std::string>());
+                    out["adex_cfg"][ticker]["nodes"]             = coin_info.urls.value_or(std::vector<node>());
                     out["adex_cfg"][ticker]["explorer_url"]      = coin_info.explorer_url;
                     out["adex_cfg"][ticker]["type"]              = adex_platform;
                     out["adex_cfg"][ticker]["active"]            = true;
@@ -542,74 +547,6 @@ namespace atomic_dex
         m_qml_engine = engine;
     }
 
-    void settings_page::reset_coin_cfg()
-    {
-        using namespace std::string_literals;
-        const std::string wallet_name                = qt_wallet_manager::get_default_wallet_name().toStdString();
-        const std::string wallet_cfg_file            = std::string(atomic_dex::get_raw_version()) + "-coins"s + "."s + wallet_name + ".json"s;
-        std::string       wallet_custom_cfg_filename = "custom-tokens."s + wallet_name + ".json"s;
-        const fs::path    wallet_custom_cfg_path{utils::get_atomic_dex_config_folder() / wallet_custom_cfg_filename};
-        const fs::path    wallet_cfg_path{utils::get_atomic_dex_config_folder() / wallet_cfg_file};
-        const fs::path    mm2_coins_file_path{atomic_dex::utils::get_current_configs_path() / "coins.json"};
-        const fs::path    ini_file_path      = atomic_dex::utils::get_current_configs_path() / "cfg.ini";
-        const fs::path    cfg_json_file_path = atomic_dex::utils::get_current_configs_path() / "cfg.json";
-        const fs::path    logo_path          = atomic_dex::utils::get_logo_path();
-        const fs::path    theme_path         = atomic_dex::utils::get_themes_path();
-
-
-        if (fs::exists(wallet_custom_cfg_path))
-        {
-            nlohmann::json custom_config_json_data;
-            QFile          fs;
-            fs.setFileName(std_path_to_qstring(wallet_custom_cfg_path));
-            fs.open(QIODevice::ReadOnly | QIODevice::Text);
-
-            //! Read Contents
-            custom_config_json_data = nlohmann::json::parse(QString(fs.readAll()).toStdString());
-            fs.close();
-
-            //! Modify
-            for (auto&& [key, value]: custom_config_json_data.items()) { value["active"] = false; }
-
-            //! Write
-            fs.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate);
-            fs.write(QString::fromStdString(custom_config_json_data.dump()).toUtf8());
-            fs.close();
-        }
-
-        const auto functor_remove = [](auto&& path_to_remove)
-        {
-            if (fs::exists(path_to_remove))
-            {
-                fs_error_code ec;
-                if (fs::is_directory(path_to_remove))
-                {
-                    fs::remove_all(path_to_remove, ec);
-                }
-                else
-                {
-                    fs::remove(path_to_remove, ec);
-                }
-                if (ec)
-                {
-                    LOG_PATH("error when removing {}", path_to_remove);
-                    SPDLOG_ERROR("error: {}", ec.message());
-                }
-                else
-                {
-                    LOG_PATH("Successfully removed {}", path_to_remove);
-                }
-            }
-        };
-
-        functor_remove(std::move(wallet_cfg_path));
-        functor_remove(std::move(mm2_coins_file_path));
-        functor_remove(std::move(ini_file_path));
-        functor_remove(std::move(cfg_json_file_path));
-        functor_remove(std::move(logo_path));
-        functor_remove(std::move(theme_path));
-    }
-
     QStringList settings_page::retrieve_seed(const QString& wallet_name, const QString& password)
     {
         QStringList     out;
@@ -624,7 +561,7 @@ namespace atomic_dex
             }
         }
         using namespace std::string_literals;
-        const fs::path seed_path = utils::get_atomic_dex_config_folder() / (wallet_name.toStdString() + ".seed"s);
+        const std::filesystem::path seed_path = utils::get_atomic_dex_config_folder() / (wallet_name.toStdString() + ".seed"s);
         auto           seed      = atomic_dex::decrypt(seed_path, key.data(), ec);
         if (ec == dextop_error::corrupted_file_or_wrong_password)
         {
