@@ -10,8 +10,7 @@ namespace atomic_dex
     inline const std::vector<std::string> g_default_coins{
         g_primary_dex_coin,
         g_second_primary_dex_coin,
-        "KIP0001",
-        "BTC"
+        "BTC-segwit"
     };
     inline const std::vector<std::string> g_wallet_only_coins{
         "ARRR-BEP20",
@@ -19,17 +18,6 @@ namespace atomic_dex
         "NVC",
         "PAXG-ERC20",
         "USDT-ERC20",
-        "BET",
-        "BOTS",
-        "CRYPTO",
-        "DEX",
-        "HODL",
-        "JUMBLR",
-        "MGW",
-        "MSHARK",
-        "PANGEA",
-        "REVS",
-        "SUPERNET",
         "XPM",
         "KIP0001",
         "ATOM"
