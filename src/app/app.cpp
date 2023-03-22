@@ -369,6 +369,7 @@ namespace atomic_dex
                 {
                     this->m_secondary_coin_fully_enabled = true;
                 }
+
                 //! TODO: figure out why sometimes ZHTLC coins end up in here twice. When they do, without this check it crashes.
                 if (std::find(to_init.begin(), to_init.end(), ticker) != to_init.end()) {
                     SPDLOG_DEBUG("Ticker {} is already in vector", ticker);

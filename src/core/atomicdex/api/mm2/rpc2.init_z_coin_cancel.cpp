@@ -18,19 +18,25 @@
 #include <nlohmann/json.hpp>
 
 //! Project Headers
-#include "atomicdex/api/mm2/rpc2.withdraw_status.hpp"
+#include "atomicdex/api/mm2/rpc2.init_z_coin_cancel.hpp"
 
-//! Implementation 2.0 RPC [withdraw_status]
+//! Implementation 2.0 RPC [init_z_coin_cancel]
 namespace atomic_dex::mm2
 {
     //! Serialization
-    void to_json(nlohmann::json& j, const withdraw_status_request& request)
+    void to_json(nlohmann::json& j, const init_z_coin_cancel_request& request)
     {
         j["params"]["task_id"] = request.task_id;
     }
 
     //! Deserialization
-    void from_json(const nlohmann::json& j, withdraw_status_answer& answer)
+    void from_json(const nlohmann::json& j, init_z_coin_cancel_answer_success& answer)
+    {
+        answer.result = j.at("result").get<std::string>();
+    }
+
+    void
+    from_json(const nlohmann::json& j, init_z_coin_cancel_answer& answer)
     {
         if (j.count("error") >= 1)
         {
@@ -38,7 +44,11 @@ namespace atomic_dex::mm2
         }
         else
         {
-            answer.result = j.at("result").at("details").get<transaction_data>();
+            if (j.contains("result") && j.contains("mmrpc") && j.at("mmrpc").get<std::string>() == "2.0")
+            {
+                answer.result = j.get<init_z_coin_cancel_answer_success>();
+            }
         }
     }
 } // namespace atomic_dex::mm2
+

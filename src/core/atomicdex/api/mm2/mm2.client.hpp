@@ -10,6 +10,7 @@
 #include "atomicdex/utilities/cpprestsdk.utilities.hpp"
 #include "rpc.disable.hpp"
 #include "rpc.recover.funds.hpp"
+#include "rpc2.init_z_coin_cancel.hpp"
 #include "rpc.hpp"
 
 namespace atomic_dex::mm2
@@ -35,12 +36,13 @@ namespace atomic_dex::mm2
 
         //! Synced
         template <typename TRequest, typename TAnswer>
-        TAnswer process_rpc(TRequest&& request, std::string rpc_command);
+        TAnswer process_rpc(TRequest&& request, std::string rpc_command, bool is_v2 = false);
 
         template <typename RpcReturnType>
         RpcReturnType rpc_process_answer(const web::http::http_response& resp, const std::string& rpc_command);
 
         t_disable_coin_answer          rpc_disable_coin(t_disable_coin_request&& request);
         t_recover_funds_of_swap_answer rpc_recover_funds(t_recover_funds_of_swap_request&& request);
+        t_init_z_coin_cancel_answer    rpc_init_z_coin_cancel(t_init_z_coin_cancel_request&& request);
     };
 } // namespace atomic_dex

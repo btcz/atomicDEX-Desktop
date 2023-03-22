@@ -122,7 +122,6 @@ namespace atomic_dex::mm2
                 return answer;
             }
 
-
             assert(not body.empty());
             auto json_answer       = nlohmann::json::parse(body);
             answer.rpc_result_code = resp.status_code();
@@ -192,11 +191,11 @@ namespace atomic_dex::mm2
 
     template <typename TRequest, typename TAnswer>
     TAnswer
-    mm2_client::process_rpc(TRequest&& request, std::string rpc_command)
+    mm2_client::process_rpc(TRequest&& request, std::string rpc_command, bool is_v2)
     {
         SPDLOG_DEBUG("Processing rpc call: {}", rpc_command);
 
-        nlohmann::json json_data = mm2::template_request(rpc_command);
+        nlohmann::json json_data = mm2::template_request(rpc_command, is_v2);
 
         mm2::to_json(json_data, request);
 
@@ -211,6 +210,12 @@ namespace atomic_dex::mm2
         return rpc_process_answer<TAnswer>(resp, rpc_command);
     }
 
+    t_init_z_coin_cancel_answer
+    mm2_client::rpc_init_z_coin_cancel(t_init_z_coin_cancel_request&& request)
+    {
+        return process_rpc<t_init_z_coin_cancel_request, t_init_z_coin_cancel_answer>(std::forward<t_init_z_coin_cancel_request>(request), "task::enable_z_coin::cancel", true);
+    }
+
     t_disable_coin_answer
     mm2_client::rpc_disable_coin(t_disable_coin_request&& request)
     {
@@ -223,6 +228,7 @@ namespace atomic_dex::mm2
         return process_rpc<t_recover_funds_of_swap_request, t_recover_funds_of_swap_answer>(
             std::forward<t_recover_funds_of_swap_request>(request), "recover_funds_of_swap");
     }
+
 } // namespace atomic_dex
 
 template atomic_dex::mm2::tx_history_answer   atomic_dex::mm2::mm2_client::rpc_process_answer(const web::http::http_response& resp, const std::string& rpc_command);

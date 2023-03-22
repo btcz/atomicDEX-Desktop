@@ -518,7 +518,7 @@ namespace atomic_dex
                     .amount    = json_fees.at("fees_amount").get<std::string>()
                 };
             }
-            nlohmann::json json_data = mm2::template_request("init_withdraw", true);
+            nlohmann::json json_data = mm2::template_request("task::withdraw::init", true);
 
             mm2::to_json(json_data, init_withdraw_req);
 
@@ -548,24 +548,26 @@ namespace atomic_dex
                             using namespace std::chrono_literals;
                             auto&              mm2_system = m_system_manager.get_system<mm2_service>();
                             static std::size_t z_nb_try      = 1;
+                            static std::size_t loop_limit    = 600;
                             nlohmann::json     z_error       = nlohmann::json::array();
                             nlohmann::json     z_batch_array = nlohmann::json::array();
                             QString            z_status;
                             t_withdraw_status_request z_request{.task_id = task_id};
 
-                            nlohmann::json j = mm2::template_request("withdraw_status", true);
+                            nlohmann::json j = mm2::template_request("task::withdraw::status", true);
                             mm2::to_json(j, z_request);
                             z_batch_array.push_back(j);
 
                             do {
+                                //! TODO: Might be nice to let users see how this is progressing if it takes a long time.
                                 pplx::task<web::http::http_response> z_resp_task = mm2_system.get_mm2_client().async_rpc_batch_standalone(z_batch_array);
                                 web::http::http_response             z_resp      = z_resp_task.get();
                                 auto                                 z_answers   = mm2::basic_batch_answer(z_resp);
                                 z_error = z_answers;
                                 z_status = QString::fromStdString(z_answers[0].at("result").at("status").get<std::string>());
 
-                                SPDLOG_DEBUG("[{}/120] Waiting for {} withdraw status [{}]...", z_nb_try, ticker, z_status.toUtf8().constData());
-                                if (z_status == "Ready")
+                                SPDLOG_DEBUG("[{}/{}] Waiting for {} withdraw status [{}]...", z_nb_try, loop_limit, ticker, z_status.toUtf8().constData());
+                                if (z_status == "Ok")
                                 {
                                     break;
                                 }
@@ -576,7 +578,7 @@ namespace atomic_dex
                                 std::this_thread::sleep_for(2s);
                                 z_nb_try += 1;
 
-                            } while (z_nb_try < 120);
+                            } while (z_nb_try < loop_limit);
 
                             try {
                                 if (z_error[0].at("result").at("details").contains("error"))
@@ -585,7 +587,7 @@ namespace atomic_dex
                                     z_status   = QString::fromStdString(z_error[0].at("result").at("details").at("error").get<std::string>());
                                     set_withdraw_status(z_status);
                                 }
-                                else if (z_nb_try == 120)
+                                else if (z_nb_try == loop_limit)
                                 {
                                     // TODO: Handle this case.
                                     // There could be no error message if scanning takes too long.
@@ -596,9 +598,9 @@ namespace atomic_dex
                                 }
                                 else
                                 {
-                                    auto           withdraw_answer      = mm2::rpc_process_answer_batch<t_withdraw_status_answer>(z_error[0], "withdraw_status");
+                                    auto           withdraw_answer      = mm2::rpc_process_answer_batch<t_withdraw_status_answer>(z_error[0], "task::withdraw::status");
                                     nlohmann::json j_out                = nlohmann::json::object();
-                                    j_out["withdraw_answer"]            = z_error[0]["result"]["details"]["result"];
+                                    j_out["withdraw_answer"]            = z_error[0]["result"]["details"];
                                     j_out.at("withdraw_answer")["date"] = withdraw_answer.result.value().timestamp_as_date;
 
                                     // Add total amount in fiat currency.
@@ -632,7 +634,6 @@ namespace atomic_dex
                                         j_out["withdraw_answer"]["fee_details"]["amount_fiat"] =
                                             global_price_system.get_price_as_currency_from_amount(current_fiat, coin_info.fees_ticker, fee);
                                     }
-                                    SPDLOG_DEBUG("zhtlc set_rpc_send_data (else)");
                                     this->set_rpc_send_data(nlohmann_json_object_to_qt_json_object(j_out));
                                     set_withdraw_status("Complete");
                                 }

@@ -14,31 +14,47 @@
  *                                                                            *
  ******************************************************************************/
 
-//! Deps
+#pragma once
+
+// Std Headers
+#include <optional>
+
+// Deps Headers
 #include <nlohmann/json.hpp>
 
 //! Project Headers
-#include "atomicdex/api/mm2/rpc2.withdraw_status.hpp"
+#include "generic.error.hpp"
 
-//! Implementation 2.0 RPC [withdraw_status]
 namespace atomic_dex::mm2
 {
-    //! Serialization
-    void to_json(nlohmann::json& j, const withdraw_status_request& request)
+    struct init_z_coin_cancel_request
     {
-        j["params"]["task_id"] = request.task_id;
-    }
+        int         task_id;
+    };
 
-    //! Deserialization
-    void from_json(const nlohmann::json& j, withdraw_status_answer& answer)
+    void to_json(nlohmann::json& j, const init_z_coin_cancel_request& request);
+
+    struct init_z_coin_cancel_answer_success
     {
-        if (j.count("error") >= 1)
-        {
-            answer.error = j;
-        }
-        else
-        {
-            answer.result = j.at("result").at("details").get<transaction_data>();
-        }
-    }
-} // namespace atomic_dex::mm2
+        std::string result;
+    };
+
+    void from_json(const nlohmann::json& j, init_z_coin_cancel_answer_success& answer);
+
+    struct init_z_coin_cancel_answer
+    {
+        std::optional<init_z_coin_cancel_answer_success> result;
+        std::optional<generic_answer_error>              error;
+        std::string                                      raw_result;      ///< internal
+        int                                              rpc_result_code; ///< internal
+    };
+
+    void from_json(const nlohmann::json& j, init_z_coin_cancel_answer& answer);
+}
+
+namespace atomic_dex
+{
+    using t_init_z_coin_cancel_request         = mm2::init_z_coin_cancel_request;
+    using t_init_z_coin_cancel_answer          = mm2::init_z_coin_cancel_answer;
+    using t_init_z_coin_cancel_answer_success  = mm2::init_z_coin_cancel_answer_success;
+} // namespace atomic_dex

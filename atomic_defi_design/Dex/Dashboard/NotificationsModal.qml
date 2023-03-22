@@ -282,6 +282,7 @@ DexPopup
             msg)
     }
 
+
     function onEnablingCoinFailedStatus(coin, error, human_date, timestamp)
     {
         // Ignore if coin already enabled (e.g. parent chain in batch)
@@ -290,6 +291,9 @@ DexPopup
             console.trace()
             return
         }
+
+        // Display the notification
+        const title = qsTr("Failed to enable %1", "TICKER").arg(coin)
 
         error = check_internet_connection_text + "\n\n" + error
 
